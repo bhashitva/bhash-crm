@@ -58,7 +58,7 @@ $compiler = Get-Content compiler.lock.json -Raw | ConvertFrom-Json
 New-Item -ItemType Directory -Path target -Force | Out-Null
 Invoke-WebRequest $compiler.url -OutFile target/compiler.jar
 if ((Get-FileHash target/compiler.jar -Algorithm SHA256).Hash.ToLowerInvariant() -ne $compiler.sha256) { throw 'Compiler checksum mismatch' }
-java -Dfile.encoding=UTF-8 tools/GenerateSourceCatalog.java
+java '-Dfile.encoding=UTF-8' tools/GenerateSourceCatalog.java
 java -jar target/compiler.jar deps verify .
 java -jar target/compiler.jar compile . -o target/crm.jar
 ```

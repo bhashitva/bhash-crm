@@ -39,7 +39,7 @@ jobs:
       - name: Build pinned compiler and app
         shell: pwsh
         run: |
-          java -Dfile.encoding=UTF-8 tools/GenerateSourceCatalog.java --check
+          java '-Dfile.encoding=UTF-8' tools/GenerateSourceCatalog.java --check
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./build.ps1
       - name: Library and launcher checks

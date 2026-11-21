@@ -15,7 +15,7 @@ try {
     if ((Get-FileHash -LiteralPath $compilerPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $compilerLock.sha256) {
         throw 'Compiler checksum does not match compiler.lock.json.'
     }
-    & java -Dfile.encoding=UTF-8 tools/GenerateSourceCatalog.java
+    & java '-Dfile.encoding=UTF-8' tools/GenerateSourceCatalog.java
     if ($LASTEXITCODE -ne 0) { throw 'Bhash source catalog generation failed.' }
     & java -jar $compilerPath deps verify .
     if ($LASTEXITCODE -ne 0) { throw 'Bhash source dependency verification failed.' }
