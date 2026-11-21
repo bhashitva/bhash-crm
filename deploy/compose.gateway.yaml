@@ -1,0 +1,11 @@
+# Use with compose.yaml when the existing Caddy gateway runs in Docker.
+# The gateway reaches this service as bhash-crm:8080 on its public network.
+services:
+  crm:
+    networks:
+      gateway:
+        aliases: [bhash-crm]
+networks:
+  gateway:
+    external: true
+    name: ${CRM_GATEWAY_NETWORK:-bhash-playground_public}

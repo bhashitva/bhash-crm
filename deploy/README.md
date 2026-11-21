@@ -68,6 +68,18 @@ a second proxy on occupied ports 80/443. The included Caddy block assumes Caddy
 runs on the host; a containerized proxy needs a shared network or another
 explicitly configured reachable upstream.
 
+For the existing Docker Caddy gateway on this VPS, start the CRM with both files:
+
+```sh
+docker compose -f deploy/compose.yaml -f deploy/compose.gateway.yaml up -d --build
+```
+
+The override joins the external `bhash-playground_public` network with the unique
+alias `bhash-crm`. Set `CRM_GATEWAY_NETWORK` if that network has a different name.
+Append a new `bhashcrm.bhashitva.org` site to the existing gateway's Caddyfile with
+`reverse_proxy bhash-crm:8080`, validate it, and reload Caddy. Keep the existing
+site blocks, volumes, and gateway container. The CRM database volume is separate.
+
 ## Without Docker
 
 Use `sh build.sh`, a dedicated `bhash-crm` Unix account, `/opt/bhash-crm` for the
