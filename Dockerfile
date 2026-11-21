@@ -7,8 +7,8 @@ FROM eclipse-temurin:17-jre-jammy
 RUN groupadd --gid 10001 crm && useradd --uid 10001 --gid crm --no-create-home crm \
     && mkdir -p /app /data && chown crm:crm /data
 WORKDIR /app
-COPY --from=build /source/target/crm.jar /app/crm.jar
-COPY --from=build /source/target/healthcheck /app/healthcheck
+COPY --from=build --chown=10001:10001 /source/target/crm.jar /app/crm.jar
+COPY --from=build --chown=10001:10001 /source/target/healthcheck /app/healthcheck
 USER 10001:10001
 EXPOSE 8080
 HEALTHCHECK --interval=60s --timeout=8s --start-period=30s --retries=3 \

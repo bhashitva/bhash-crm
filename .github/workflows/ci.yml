@@ -6,6 +6,13 @@ concurrency:
   group: crm-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
+  container:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - name: Verify production container
+        run: sh tests/docker-smoke.sh
   verify:
     strategy:
       fail-fast: false
