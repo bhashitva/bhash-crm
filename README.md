@@ -19,6 +19,16 @@ Deployment hostname: **https://bhashcrm.bhashitva.org**.
   default language in the database. It applies at subsequent sign-ins.
 - Current-session language switches do not silently overwrite the saved default.
   Customer-entered content is never translated. Language state is request-scoped.
+- **भाष स्रोत देखें / View Bhash source** opens a closable side panel on every
+  screen, including sign-in and error pages. Frontend and backend sections show
+  the current page's Bhash functions and expandable shared code. Native controls
+  preserve the current URL, scroll position, and unsaved form input; JavaScript
+  is unnecessary. The panel and shared files load on demand.
+
+The source viewer serves a fixed, escaped source snapshot from the running build.
+Its routes select allowlisted code sections, never arbitrary server files or
+database values. Builds run `java tools/GenerateSourceCatalog.java` to refresh
+`src/source_catalog.bhash`; CI checks that the committed snapshot is current.
 
 The language migration appends schema version 3: existing accounts default to
 Hindi; password hashes, memberships and CRM data remain intact.
@@ -48,6 +58,7 @@ $compiler = Get-Content compiler.lock.json -Raw | ConvertFrom-Json
 New-Item -ItemType Directory -Path target -Force | Out-Null
 Invoke-WebRequest $compiler.url -OutFile target/compiler.jar
 if ((Get-FileHash target/compiler.jar -Algorithm SHA256).Hash.ToLowerInvariant() -ne $compiler.sha256) { throw 'Compiler checksum mismatch' }
+java tools/GenerateSourceCatalog.java
 java -jar target/compiler.jar deps verify .
 java -jar target/compiler.jar compile . -o target/crm.jar
 ```

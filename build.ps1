@@ -15,6 +15,8 @@ try {
     if ((Get-FileHash -LiteralPath $compilerPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $compilerLock.sha256) {
         throw 'Compiler checksum does not match compiler.lock.json.'
     }
+    & java tools/GenerateSourceCatalog.java
+    if ($LASTEXITCODE -ne 0) { throw 'Bhash source catalog generation failed.' }
     & java -jar $compilerPath deps verify .
     if ($LASTEXITCODE -ne 0) { throw 'Bhash source dependency verification failed.' }
     $output = if ($Target -eq 'jvm') { 'target/crm.jar' } else { 'target/crm-clr' }

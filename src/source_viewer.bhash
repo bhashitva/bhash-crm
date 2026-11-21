@@ -1,0 +1,73 @@
+// SPDX-License-Identifier: Apache-2.0
+आयात अनुप्रयोग.दृश्य; आयात मानक.वेबउत्तर; आयात मानक.वेबत्रुटि; आयात मानक.पाठ्य;
+
+// Native disclosures preserve the page, forms, scroll, and browser history.
+// The catalog is generated only from a fixed list of public Bhash source files.
+वर्ग स्रोतदृश्य {
+    निजी साझा फलन खंड(शीर्षक: पाठ, कुंजी: पाठ, खुला: तार्किक) -> दृश्य {
+        स्थिर भाग: दृश्य=दृश्य.खंड("details").गुण("class","source-file");
+        यदि (खुला) { भाग.गुण("open","open"); }
+        लौटाओ भाग.जोड़ो(दृश्य.शब्द("summary",शीर्षक)).जोड़ो(दृश्य.खंड("pre").गुण("tabindex","0").गुण("aria-label",शीर्षक).जोड़ो(दृश्य.शब्द("code",स्रोतसंग्रह.लो(कुंजी))));
+    }
+    निजी साझा फलन आलसीखंड(शीर्षक: पाठ, भाग: पाठ, पृष्ठ: पाठ, भाषा: पाठ) -> दृश्य {
+        लौटाओ दृश्य.खंड("details").गुण("class","source-file").जोड़ो(दृश्य.शब्द("summary",शीर्षक)).जोड़ो(दृश्य.खंड("iframe").गुण("class","source-code-frame").गुण("title",शीर्षक).गुण("loading","lazy").गुण("sandbox","allow-same-origin").गुण("src","/source/"+पृष्ठ+"/"+भाग+"?language="+भाषा));
+    }
+    निजी साझा फलन कोडपृष्ठ(अ: अनुवाद, शरीर: दृश्य) -> वेबउत्तर {
+        स्थिर उत्तर: वेबउत्तर=दृश्य.पृष्ठ(अ.पाठलो("Bhash source for this page"),शरीर,अ.भाषा);
+        उत्तर.शीर्षरखो("Content-Security-Policy","default-src 'none'; style-src 'self'; frame-src 'self'; form-action 'none'; frame-ancestors 'self'; base-uri 'none'");
+        लौटाओ उत्तर;
+    }
+    सार्वजनिक साझा फलन अंशदस्तावेज़(अ: अनुवाद, पृष्ठ: पाठ, भाग: पाठ) -> वेबउत्तर {
+        स्रोतदृश्य.जाँचो(पृष्ठ); मान कुंजी: पाठ="";
+        यदि (भाग=="layout") { कुंजी="ui:layout"; }
+        यदि (भाग=="routing") { कुंजी="backend:routing"; }
+        यदि (भाग=="validation") { कुंजी="backend:validation"; }
+        यदि (भाग=="ui") { कुंजी="file:packages/web-platform/src/ui.bhash"; }
+        यदि (भाग=="translations") { कुंजी="file:src/translations.bhash"; }
+        यदि (भाग=="viewer") { कुंजी="file:src/source_viewer.bhash"; }
+        यदि (भाग=="main") { कुंजी="file:src/main.bhash"; }
+        यदि (भाग=="forms") { कुंजी="file:packages/web-platform/src/forms.bhash"; }
+        यदि (भाग=="sessions") { कुंजी="file:packages/web-platform/src/sessions.bhash"; }
+        यदि (भाग=="tenancy") { कुंजी="file:packages/web-platform/src/tenancy.bhash"; }
+        यदि (भाग=="schema") { कुंजी="file:src/schema.bhash"; }
+        यदि (कुंजी=="") { फेंको नया वेबत्रुटि(४०४,"स्रोत पृष्ठ उपलब्ध नहीं।"); }
+        स्थिर कोड: दृश्य=दृश्य.खंड("main").गुण("class","source-code-document").जोड़ो(दृश्य.खंड("pre").गुण("tabindex","0").गुण("aria-label",अ.पाठलो("Bhash source for this page")).जोड़ो(दृश्य.शब्द("code",स्रोतसंग्रह.लो(कुंजी))));
+        लौटाओ स्रोतदृश्य.कोडपृष्ठ(अ,कोड);
+    }
+    निजी साझा फलन जाँचो(पृष्ठ: पाठ) -> शून्य {
+        प्रत्येक (नया सूची<पाठ>{"signin","organizations","overview","list","record","members","audit","account","error","shared"} में नाम: पाठ) { यदि (पृष्ठ==नाम) { लौटाओ; } }
+        फेंको नया वेबत्रुटि(४०४,"स्रोत पृष्ठ उपलब्ध नहीं।");
+    }
+    सार्वजनिक साझा फलन पैनल(अ: अनुवाद, पृष्ठ: पाठ) -> दृश्य {
+        स्रोतदृश्य.जाँचो(पृष्ठ);
+        स्थिर शीर्ष: दृश्य=दृश्य.खंड("summary").जोड़ो(अ.नोड("span","View Bhash source").गुण("class","source-show")).जोड़ो(अ.नोड("span","Close source view").गुण("class","source-hide"));
+        स्थिर फ्रेम: दृश्य=दृश्य.खंड("iframe").गुण("class","source-frame").गुण("title",अ.पाठलो("Bhash source for this page")).गुण("src","/source/"+पृष्ठ+"?language="+अ.भाषा).गुण("loading","lazy").गुण("sandbox","allow-same-origin");
+        लौटाओ दृश्य.खंड("details").गुण("id","bhash-source").गुण("class","source-viewer").जोड़ो(शीर्ष).जोड़ो(फ्रेम);
+    }
+    सार्वजनिक साझा फलन दस्तावेज़(अ: अनुवाद, पृष्ठ: पाठ) -> वेबउत्तर {
+        स्रोतदृश्य.जाँचो(पृष्ठ);
+        स्थिर आगे: दृश्य=दृश्य.खंड("details").गुण("class","source-group").गुण("open","open").जोड़ो(अ.नोड("summary","Frontend Bhash"));
+        स्थिर पीछे: दृश्य=दृश्य.खंड("details").गुण("class","source-group").जोड़ो(अ.नोड("summary","Backend Bhash"));
+        यदि (पृष्ठ=="error") {
+            आगे.जोड़ो(स्रोतदृश्य.खंड("src/errors.bhash","file:src/errors.bhash",सत्य));
+        } अन्यथा यदि (पृष्ठ=="shared") {
+            आगे.जोड़ो(स्रोतदृश्य.खंड("src/web.bhash","ui:layout",सत्य));
+        } अन्यथा {
+            आगे.जोड़ो(स्रोतदृश्य.खंड("src/web.bhash · "+अ.पाठलो("This page"),"ui:"+पृष्ठ,सत्य));
+            पीछे.जोड़ो(स्रोतदृश्य.खंड("src/storage.bhash · "+अ.पाठलो("This page"),"backend:"+पृष्ठ,सत्य));
+        }
+        आगे.जोड़ो(स्रोतदृश्य.आलसीखंड(अ.पाठलो("Shared page layout"),"layout",पृष्ठ,अ.भाषा));
+        आगे.जोड़ो(स्रोतदृश्य.आलसीखंड("packages/web-platform/src/ui.bhash","ui",पृष्ठ,अ.भाषा));
+        आगे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/translations.bhash","translations",पृष्ठ,अ.भाषा));
+        आगे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/source_viewer.bhash","viewer",पृष्ठ,अ.भाषा));
+        पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/web.bhash · "+अ.पाठलो("Request handlers"),"routing",पृष्ठ,अ.भाषा));
+        यदि (पृष्ठ=="record") { पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/web.bhash · "+अ.पाठलो("Record validation"),"validation",पृष्ठ,अ.भाषा)); }
+        पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/main.bhash","main",पृष्ठ,अ.भाषा));
+        पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("packages/web-platform/src/forms.bhash","forms",पृष्ठ,अ.भाषा));
+        पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("packages/web-platform/src/sessions.bhash","sessions",पृष्ठ,अ.भाषा));
+        पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("packages/web-platform/src/tenancy.bhash","tenancy",पृष्ठ,अ.भाषा));
+        पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/schema.bhash","schema",पृष्ठ,अ.भाषा));
+        स्थिर शरीर: दृश्य=दृश्य.खंड("main").गुण("class","source-document").जोड़ो(अ.नोड("h2","Bhash source for this page")).जोड़ो(अ.नोड("p","Read the Bhash source used by this running app. Opening or closing this panel keeps your page and unsaved entries in place.")).जोड़ो(आगे).जोड़ो(पीछे);
+        लौटाओ स्रोतदृश्य.कोडपृष्ठ(अ,शरीर);
+    }
+}

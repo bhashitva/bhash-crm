@@ -38,7 +38,10 @@ jobs:
           dotnet-version: '10.0.x'
       - name: Build pinned compiler and app
         shell: pwsh
-        run: ./build.ps1
+        run: |
+          java tools/GenerateSourceCatalog.java --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./build.ps1
       - name: Library and launcher checks
         shell: bash
         run: |

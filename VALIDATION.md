@@ -5,8 +5,8 @@ verified against compiler.lock.json. No compiler source checkout is required.
 
 | Check | Result |
 | --- | --- |
-| JVM + SQLite HTTP integration suite | Passed, 18 scenario groups |
-| .NET CLR + SQLite HTTP integration suite | Passed, 18 scenario groups |
+| JVM + SQLite HTTP integration suite | Passed, 19 scenario groups including source viewer |
+| .NET CLR + SQLite HTTP integration suite | Passed, 19 scenario groups including source viewer |
 | Bhash UI/form/local-origin policy tests | Passed |
 | Schema-v2 to schema-v3 account/data migration | Passed |
 | Java launcher/password boundary checks | Passed |
@@ -17,6 +17,14 @@ verified against compiler.lock.json. No compiler source checkout is required.
 | Docker image build/runtime | Passed on VPS and Ubuntu CI, nonroot/read-only with SQLite |
 | Live VPS/DNS/HTTPS deployment | Passed at https://bhashcrm.bhashitva.org on November 21, 2026 |
 | Production load/failover test | Not performed |
+
+The source viewer uses native disclosures and lazy same-origin frames. Browser
+checks confirm frontend/backend and shared source display, keyboard close,
+mobile drawer sizing, unchanged record URL, and preservation of unsaved notes.
+HTTP checks cover every rendered CRM page, localized controls, source selection,
+escaped code, unknown source rejection, error pages, and absence of customer
+records and credentials from the source documents. The generated catalog is
+checked against the source files before CI builds.
 
 The HTTP suite covers Hindi defaults, temporary session-language switches,
 persisted per-user default language, preference isolation across users and workers,

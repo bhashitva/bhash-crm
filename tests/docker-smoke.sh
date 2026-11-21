@@ -24,6 +24,11 @@ curl -fsS -D /tmp/crm-smoke-headers -o /tmp/crm-smoke-page \
     -H 'Host: bhashcrm.bhashitva.org' http://127.0.0.1:18080/
 grep -qi '^Content-Language: hi' /tmp/crm-smoke-headers
 grep -q 'lang="hi"' /tmp/crm-smoke-page
+grep -q 'id="bhash-source"' /tmp/crm-smoke-page
+curl -fsS -H 'Host: bhashcrm.bhashitva.org' \
+    http://127.0.0.1:18080/source/signin?language=hi -o /tmp/crm-smoke-source
+grep -q 'src/web.bhash' /tmp/crm-smoke-source
+grep -q 'src/storage.bhash' /tmp/crm-smoke-source
 docker exec "$name" java -Djdk.httpclient.allowRestrictedHeaders=host \
     -cp /app/healthcheck Healthcheck
 echo 'Nonroot container startup, SQLite, Hindi page, and healthcheck passed.'

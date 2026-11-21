@@ -25,6 +25,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from source_checks import SourcePanel
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -112,9 +113,12 @@ class Client:
             response = error
         text = response.read().decode("utf-8")
         assert response.code == status, (path, response.code, status, text[:500])
+        if response.headers.get_content_type() == "text/html" and not (path.startswith("/source/") and status == 200):
+            SourcePanel(text).check()
         if status == 200 and response.headers.get_content_type() == "text/html":
             assert response.headers["Cache-Control"] == "no-store"
-            assert "frame-ancestors 'none'" in response.headers["Content-Security-Policy"]
+            frame_policy = "self" if path.startswith("/source/") else "none"
+            assert f"frame-ancestors '{frame_policy}'" in response.headers["Content-Security-Policy"]
             assert "<script" not in text.lower(), "Bhash SSR must work with scripts disabled"
             token = Inputs(text).values.get("_csrf")
             if token:
@@ -243,7 +247,8 @@ def verify(command, artifact: Path, provider: str, runtime: str, report: Path | 
             anonymous = Client(first)
             text, headers = anonymous.request("/")
             assert headers["Content-Language"] == "hi" and '<html lang="hi">' in text
-            assert "आपके ग्राहक प्रबंधन का कार्यस्थल" in text and "Sign in to manage" not in text
+            visible = "".join(SourcePanel(text).visible)
+            assert "आपके ग्राहक प्रबंधन का कार्यस्थल" in visible and "Sign in to manage" not in visible
             anonymous.post("/language", {"language": "en", "_return": "/"})
             text, headers = anonymous.request("/")
             assert headers["Content-Language"] == "en" and "Your customer workspace" in text
@@ -255,6 +260,35 @@ def verify(command, artifact: Path, provider: str, runtime: str, report: Path | 
                 text, headers = alice.request(path)
                 assert headers["Content-Language"] == "hi" and '<html lang="hi">' in text
                 assert ">Sign out<" not in text and ">Account<" not in text
+            for path, method in (("/", "संगठनपृष्ठ"), ("/account", "खातापृष्ठ"),
+                                 (f"/t/{alpha}", "अवलोकन"), (f"/t/{alpha}/members", "सदस्यपृष्ठ"),
+                                 (f"/t/{alpha}/audit", "लेखापृष्ठ")):
+                page = SourcePanel(alice.request(path)[0]).check().document(alice)
+                assert f"फलन {method}(" in page.codes[0]
+                assert password not in "\n".join(page.codes)
+            for kind in ("companies", "contacts", "deals", "tasks"):
+                page = SourcePanel(alice.request(f"/t/{alpha}/{kind}")[0]).check().document(alice)
+                assert "फलन सूचीपृष्ठ(" in page.codes[0]
+                assert any("फलन सूचीलो(" in code for code in page.codes)
+            page = SourcePanel(alice.request(f"/t/{alpha}/contacts/{contact}")[0]).check().document(alice)
+            assert "फलन संपादन(" in page.codes[0]
+            assert any("फलन सहेजो(" in code for code in page.codes)
+            assert "दूसरी पंक्ति" not in "\n".join(page.codes), "Customer data must stay outside source"
+            error_page = SourcePanel(alice.request("/page-does-not-exist", status=404)[0]).check().document(alice)
+            assert "वर्ग सीआरएमत्रुटिदृश्य" in error_page.codes[0]
+            _, method_headers = alice.request("/login", status=405)
+            assert method_headers["Allow"] == "POST"
+            anonymous.request("/source/not-a-source-file", status=404)
+            anonymous.request("/source/signin%7Corganizations", status=404)
+            anonymous.request("/source/signin?language=fr", status=422)
+            anonymous.request("/source/signin?language=en&language=hi", status=422)
+            anonymous.request("/source/signin/private-config", status=404)
+            for part, marker in (("forms", "वर्ग फॉर्मसुरक्षा"), ("sessions", "वर्ग स्थायीसत्र"),
+                                 ("main", "फलन मुख्य()"), ("translations", "वर्ग अनुवाद")):
+                from source_checks import SourceDocument
+                document = SourceDocument(anonymous.request(f"/source/signin/{part}?language=en")[0]).check()
+                assert marker in document.codes[0]
+            checks.append("page-specific frontend/backend source on every HTML response, escaped and independent of tenant data")
             untranslated = alice.create(alpha, "contacts", "Contacts")
             text, _ = alice.request(f"/t/{alpha}/contacts/{untranslated}")
             assert 'value="Contacts"' in text, "Customer text must not be translated as a UI label"
