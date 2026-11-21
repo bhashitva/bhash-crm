@@ -108,7 +108,22 @@ Returning to an older schema version requires restoring its compatible backup.
 
 ## Scope and verification
 
-The Compose/Caddy/systemd files are deployment templates. Their presence does
-not prove a live deployment has completed. Record the actual VPS, deployed commit,
-DNS/certificate result and authenticated smoke-test outcome after deployment.
+Deployed on November 21, 2026 at https://bhashcrm.bhashitva.org on the existing
+`play.bhashitva.org` VPS, from runtime commit `8372456` in `/opt/bhash-crm`.
+The container is `bhash-crm-crm-1`; the database volume is `bhash-crm_crm_data`.
+The shared gateway is `bhash-playground-gateway-1`, with configuration at
+`/opt/bhash/deploy/playground/Caddyfile` and a timestamped
+`Caddyfile.before-bhash-crm-*` backup preceding the new site block.
+
+The approved existing account and organization were transferred, preserving
+their credentials. The restricted pre-migration snapshot is retained at
+`/opt/bhash-crm/backups/local-import-before-migration.db`. Sign in with the
+existing username/password, then use the language menu for the current session
+or Account to save the default for future logins. The local and hosted databases
+are independent after the one-time transfer. Automatic backup scheduling has
+not been configured; use the backup procedure above before upgrades.
+
+HTTPS, anonymous language switching, secure cookies, database integrity and
+credential preservation are verified. Interactive login with the owner's
+password remains for the owner to check. See [validation](../VALIDATION.md).
 No user-count or high-availability claim is implied by shared session storage.
