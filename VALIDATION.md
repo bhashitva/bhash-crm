@@ -13,6 +13,8 @@ verified against compiler.lock.json. No compiler source checkout is required.
 | Hindi stdout/stderr encoding regression | Passed |
 | Interrupted bootstrap/retry preservation | Passed |
 | Source dependency lockfiles | Verified |
+| Source panel and shared code documents | Passed on all CRM page mappings, Hindi/English, and error pages |
+| Browser interaction | Verified open/close, nested source loading, keyboard close, and retained unsaved input |
 | CI workflow actionlint validation | Passed |
 | Docker image build/runtime | Passed on VPS and Ubuntu CI, nonroot/read-only with SQLite |
 | Live VPS/DNS/HTTPS deployment | Passed at https://bhashcrm.bhashitva.org on November 21, 2026 |
@@ -55,3 +57,14 @@ https://github.com/bhashitva/bhash-crm/actions/runs/44950942478
 
 No personal database, password, Hostinger credential, SSH key or GitHub token is
 part of the source repository.
+
+The source-viewer update is deployed from runtime commit `54e9ba6`. Public HTTPS
+checks cover each source-page mapping in both languages, shared code documents,
+the login-page control, invalid source rejection, and 404/405 controls. The
+existing database volume and integrity checks pass; the old sites return 200.
+A verified online backup precedes the update. The application serves fixed
+build-time Bhash source; it reads no runtime files through the source routes.
+
+All four updated CI jobs pass for commit `6717676` (Ubuntu JVM, Windows JVM,
+Ubuntu CLR, and the production container):
+https://github.com/bhashitva/bhash-crm/actions/runs/44954809698

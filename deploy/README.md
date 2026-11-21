@@ -110,7 +110,9 @@ Returning to an older schema version requires restoring its compatible backup.
 
 Deployed on November 21, 2026 at https://bhashcrm.bhashitva.org on the existing
 `play.bhashitva.org` VPS, from runtime commit `8372456` in `/opt/bhash-crm`.
-The container is `bhash-crm-crm-1`; the database volume is `bhash-crm_crm_data`.
+The source-viewer update runs from commit `54e9ba6`; the subsequent Windows build
+helper correction does not change its Bhash runtime source. The container is
+`bhash-crm-crm-1`; the database volume remains `bhash-crm_crm_data`.
 The shared gateway is `bhash-playground-gateway-1`, with configuration at
 `/opt/bhash/deploy/playground/Caddyfile` and a timestamped
 `Caddyfile.before-bhash-crm-*` backup preceding the new site block.
