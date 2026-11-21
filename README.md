@@ -27,7 +27,7 @@ Deployment hostname: **https://bhashcrm.bhashitva.org**.
 
 The source viewer serves a fixed, escaped source snapshot from the running build.
 Its routes select allowlisted code sections, never arbitrary server files or
-database values. Builds run `java tools/GenerateSourceCatalog.java` to refresh
+database values. Builds run `java -Dfile.encoding=UTF-8 tools/GenerateSourceCatalog.java` to refresh
 `src/source_catalog.bhash`; CI checks that the committed snapshot is current.
 
 The language migration appends schema version 3: existing accounts default to
@@ -58,7 +58,7 @@ $compiler = Get-Content compiler.lock.json -Raw | ConvertFrom-Json
 New-Item -ItemType Directory -Path target -Force | Out-Null
 Invoke-WebRequest $compiler.url -OutFile target/compiler.jar
 if ((Get-FileHash target/compiler.jar -Algorithm SHA256).Hash.ToLowerInvariant() -ne $compiler.sha256) { throw 'Compiler checksum mismatch' }
-java tools/GenerateSourceCatalog.java
+java -Dfile.encoding=UTF-8 tools/GenerateSourceCatalog.java
 java -jar target/compiler.jar deps verify .
 java -jar target/compiler.jar compile . -o target/crm.jar
 ```

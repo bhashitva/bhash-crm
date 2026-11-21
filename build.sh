@@ -11,6 +11,6 @@ if [ ! -f "$compiler" ]; then
     mv "$compiler.download" "$compiler"
 fi
 printf '%s  %s\n' "$checksum" "$compiler" | sha256sum -c -
-java tools/GenerateSourceCatalog.java
+java -Dfile.encoding=UTF-8 tools/GenerateSourceCatalog.java
 java -jar "$compiler" deps verify .
 java -jar "$compiler" compile . --target jvm -o target/crm.jar
