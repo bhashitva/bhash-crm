@@ -1,0 +1,210 @@
+// SPDX-License-Identifier: Apache-2.0
+आयात अनुप्रयोग.दृश्य; आयात मानक.वेबउत्तर;
+वर्ग अनुवाद {
+    सार्वजनिक स्थिर भाषा: पाठ;
+    निजी स्थिर शब्दकोश: मानचित्र<पाठ,पाठ>;
+    निजी स्थिर अंग्रेज़ी: मानचित्र<पाठ,पाठ>;
+    निर्माता(भाषा: पाठ) {
+        सीआरएमभंडार.भाषाजाँचो(भाषा); यह.भाषा=भाषा; शब्दकोश=नया मानचित्र<पाठ,पाठ>(); अंग्रेज़ी=नया मानचित्र<पाठ,पाठ>();
+        अनुवाद.भाग१(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग२(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग३(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग४(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग५(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग६(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग७(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग८(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग९(शब्दकोश,अंग्रेज़ी);
+    }
+    निजी साझा फलन भाग१(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Account"]="खाता"; अंग्रेज़ी["खाता"]="Account";
+        शब्दकोश["Action"]="क्रिया"; अंग्रेज़ी["क्रिया"]="Action";
+        शब्दकोश["Active"]="सक्रिय"; अंग्रेज़ी["सक्रिय"]="Active";
+        शब्दकोश["Actor"]="कर्ता"; अंग्रेज़ी["कर्ता"]="Actor";
+        शब्दकोश["Add a member"]="सदस्य जोड़ें"; अंग्रेज़ी["सदस्य जोड़ें"]="Add a member";
+        शब्दकोश["Add member"]="सदस्य जोड़ें"; अंग्रेज़ी["सदस्य जोड़ें"]="Add member";
+        शब्दकोश["Add record"]="रिकॉर्ड जोड़ें"; अंग्रेज़ी["रिकॉर्ड जोड़ें"]="Add record";
+        शब्दकोश["Archive record"]="रिकॉर्ड संग्रहित करें"; अंग्रेज़ी["रिकॉर्ड संग्रहित करें"]="Archive record";
+        शब्दकोश["Archived"]="संग्रहित"; अंग्रेज़ी["संग्रहित"]="Archived";
+        शब्दकोश["Audit"]="लेखा"; अंग्रेज़ी["लेखा"]="Audit";
+        शब्दकोश["Audit trail"]="बदलावों का लेखा"; अंग्रेज़ी["बदलावों का लेखा"]="Audit trail";
+        शब्दकोश["Back to list"]="सूची पर लौटें"; अंग्रेज़ी["सूची पर लौटें"]="Back to list";
+        शब्दकोश["Browse, search and manage records."]="रिकॉर्ड देखें, खोजें और प्रबंधित करें।"; अंग्रेज़ी["रिकॉर्ड देखें, खोजें और प्रबंधित करें।"]="Browse, search and manage records.";
+        शब्दकोश["Change password"]="कूटशब्द बदलें"; अंग्रेज़ी["कूटशब्द बदलें"]="Change password";
+        शब्दकोश["Change password and sign out"]="कूटशब्द बदलें और बाहर निकलें"; अंग्रेज़ी["कूटशब्द बदलें और बाहर निकलें"]="Change password and sign out";
+        शब्दकोश["Companies"]="कंपनियाँ"; अंग्रेज़ी["कंपनियाँ"]="Companies";
+        शब्दकोश["Company"]="कंपनी"; अंग्रेज़ी["कंपनी"]="Company";
+        शब्दकोश["Confirm new password"]="नए कूटशब्द की पुष्टि"; अंग्रेज़ी["नए कूटशब्द की पुष्टि"]="Confirm new password";
+        शब्दकोश["Contacts"]="संपर्क"; अंग्रेज़ी["संपर्क"]="Contacts";
+        शब्दकोश["Contacts, pipeline and follow-ups in one place."]="संपर्क, बिक्री के अवसर और अनुवर्ती कार्य एक स्थान पर।"; अंग्रेज़ी["संपर्क, बिक्री के अवसर और अनुवर्ती कार्य एक स्थान पर।"]="Contacts, pipeline and follow-ups in one place.";
+    }
+    निजी साझा फलन भाग२(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Create an organization"]="संगठन बनाएँ"; अंग्रेज़ी["संगठन बनाएँ"]="Create an organization";
+        शब्दकोश["Create organization"]="संगठन बनाएँ"; अंग्रेज़ी["संगठन बनाएँ"]="Create organization";
+        शब्दकोश["Currency"]="मुद्रा"; अंग्रेज़ी["मुद्रा"]="Currency";
+        शब्दकोश["Current password"]="वर्तमान कूटशब्द"; अंग्रेज़ी["वर्तमान कूटशब्द"]="Current password";
+        शब्दकोश["Current related record"]="वर्तमान संबंधित रिकॉर्ड"; अंग्रेज़ी["वर्तमान संबंधित रिकॉर्ड"]="Current related record";
+        शब्दकोश["Details"]="विवरण"; अंग्रेज़ी["विवरण"]="Details";
+        शब्दकोश["Due date"]="नियत तिथि"; अंग्रेज़ी["नियत तिथि"]="Due date";
+        शब्दकोश["Email"]="ईमेल"; अंग्रेज़ी["ईमेल"]="Email";
+        शब्दकोश["Entity"]="रिकॉर्ड का प्रकार"; अंग्रेज़ी["रिकॉर्ड का प्रकार"]="Entity";
+        शब्दकोश["Language"]="भाषा"; अंग्रेज़ी["भाषा"]="Language";
+        शब्दकोश["Default language"]="डिफ़ॉल्ट भाषा"; अंग्रेज़ी["डिफ़ॉल्ट भाषा"]="Default language";
+        शब्दकोश["Display language"]="प्रदर्शन की भाषा"; अंग्रेज़ी["प्रदर्शन की भाषा"]="Display language";
+        शब्दकोश["Save language preference"]="भाषा की पसंद सहेजें"; अंग्रेज़ी["भाषा की पसंद सहेजें"]="Save language preference";
+        शब्दकोश["Language preference"]="भाषा की पसंद"; अंग्रेज़ी["भाषा की पसंद"]="Language preference";
+        शब्दकोश["Choose your default language. It is used whenever you sign in."]="अपनी डिफ़ॉल्ट भाषा चुनें। हर बार प्रवेश करने पर यही भाषा उपयोग होगी।"; अंग्रेज़ी["अपनी डिफ़ॉल्ट भाषा चुनें। हर बार प्रवेश करने पर यही भाषा उपयोग होगी।"]="Choose your default language. It is used whenever you sign in.";
+        शब्दकोश["Switch"]="बदलें"; अंग्रेज़ी["बदलें"]="Switch";
+        शब्दकोश["Main navigation"]="मुख्य नेविगेशन"; अंग्रेज़ी["मुख्य नेविगेशन"]="Main navigation";
+        शब्दकोश["Members"]="सदस्य"; अंग्रेज़ी["सदस्य"]="Members";
+        शब्दकोश["Members & access"]="सदस्य और अनुमतियाँ"; अंग्रेज़ी["सदस्य और अनुमतियाँ"]="Members & access";
+        शब्दकोश["Name"]="नाम"; अंग्रेज़ी["नाम"]="Name";
+    }
+    निजी साझा फलन भाग३(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["New password"]="नया कूटशब्द"; अंग्रेज़ी["नया कूटशब्द"]="New password";
+        शब्दकोश["Next"]="अगला"; अंग्रेज़ी["अगला"]="Next";
+        शब्दकोश["No matching records."]="कोई मेल खाता रिकॉर्ड नहीं मिला।"; अंग्रेज़ी["कोई मेल खाता रिकॉर्ड नहीं मिला।"]="No matching records.";
+        शब्दकोश["None"]="कोई नहीं"; अंग्रेज़ी["कोई नहीं"]="None";
+        शब्दकोश["Notes"]="टिप्पणियाँ"; अंग्रेज़ी["टिप्पणियाँ"]="Notes";
+        शब्दकोश["Opportunities"]="बिक्री के अवसर"; अंग्रेज़ी["बिक्री के अवसर"]="Opportunities";
+        शब्दकोश["Organization name"]="संगठन का नाम"; अंग्रेज़ी["संगठन का नाम"]="Organization name";
+        शब्दकोश["Organizations"]="संगठन"; अंग्रेज़ी["संगठन"]="Organizations";
+        शब्दकोश["Overview"]="अवलोकन"; अंग्रेज़ी["अवलोकन"]="Overview";
+        शब्दकोश["Pagination"]="पृष्ठ बदलें"; अंग्रेज़ी["पृष्ठ बदलें"]="Pagination";
+        शब्दकोश["Password"]="कूटशब्द"; अंग्रेज़ी["कूटशब्द"]="Password";
+        शब्दकोश["Password for a NEW account only (12+ characters)"]="केवल नए खाते का कूटशब्द (कम से कम १२ अक्षर)"; अंग्रेज़ी["केवल नए खाते का कूटशब्द (कम से कम १२ अक्षर)"]="Password for a NEW account only (12+ characters)";
+        शब्दकोश["Phone"]="फ़ोन"; अंग्रेज़ी["फ़ोन"]="Phone";
+        शब्दकोश["Pipeline preview shows the first 50 opportunities. Open Opportunities to search and page through all records."]="पूर्वावलोकन में पहले ५० अवसर हैं। सभी रिकॉर्ड खोजने और उनके पृष्ठ देखने के लिए बिक्री के अवसर खोलें।"; अंग्रेज़ी["पूर्वावलोकन में पहले ५० अवसर हैं। सभी रिकॉर्ड खोजने और उनके पृष्ठ देखने के लिए बिक्री के अवसर खोलें।"]="Pipeline preview shows the first 50 opportunities. Open Opportunities to search and page through all records.";
+        शब्दकोश["Previous"]="पिछला"; अंग्रेज़ी["पिछला"]="Previous";
+        शब्दकोश["Related contact"]="संबंधित संपर्क"; अंग्रेज़ी["संबंधित संपर्क"]="Related contact";
+        शब्दकोश["Remove member"]="सदस्य हटाएँ"; अंग्रेज़ी["सदस्य हटाएँ"]="Remove member";
+        शब्दकोश["Restore record"]="रिकॉर्ड वापस लाएँ"; अंग्रेज़ी["रिकॉर्ड वापस लाएँ"]="Restore record";
+        शब्दकोश["Role"]="भूमिका"; अंग्रेज़ी["भूमिका"]="Role";
+        शब्दकोश["Sales pipeline"]="बिक्री के अवसरों की स्थिति"; अंग्रेज़ी["बिक्री के अवसरों की स्थिति"]="Sales pipeline";
+    }
+    निजी साझा फलन भाग४(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Save record"]="रिकॉर्ड सहेजें"; अंग्रेज़ी["रिकॉर्ड सहेजें"]="Save record";
+        शब्दकोश["Search"]="खोजें"; अंग्रेज़ी["खोजें"]="Search";
+        शब्दकोश["Search by name"]="नाम से खोजें"; अंग्रेज़ी["नाम से खोजें"]="Search by name";
+        शब्दकोश["Sign in"]="प्रवेश करें"; अंग्रेज़ी["प्रवेश करें"]="Sign in";
+        शब्दकोश["Sign in to manage your organizations, relationships and opportunities."]="अपने संगठन, संपर्क और बिक्री के अवसर सँभालने के लिए प्रवेश करें।"; अंग्रेज़ी["अपने संगठन, संपर्क और बिक्री के अवसर सँभालने के लिए प्रवेश करें।"]="Sign in to manage your organizations, relationships and opportunities.";
+        शब्दकोश["Sign out"]="बाहर निकलें"; अंग्रेज़ी["बाहर निकलें"]="Sign out";
+        शब्दकोश["Status"]="स्थिति"; अंग्रेज़ी["स्थिति"]="Status";
+        शब्दकोश["Tasks"]="कार्य"; अंग्रेज़ी["कार्य"]="Tasks";
+        शब्दकोश["Time (UTC)"]="समय (यूटीसी)"; अंग्रेज़ी["समय (यूटीसी)"]="Time (UTC)";
+        शब्दकोश["Update role"]="भूमिका बदलें"; अंग्रेज़ी["भूमिका बदलें"]="Update role";
+        शब्दकोश["Use an existing username, or create a new account with a temporary password. Share credentials privately; the owner cannot reset an existing account's password here."]="मौजूदा उपयोगकर्ता नाम दें या अस्थायी कूटशब्द से नया खाता बनाएँ। प्रवेश विवरण निजी रूप से साझा करें। मालिक यहाँ किसी मौजूदा खाते का कूटशब्द नहीं बदल सकता।"; अंग्रेज़ी["मौजूदा उपयोगकर्ता नाम दें या अस्थायी कूटशब्द से नया खाता बनाएँ। प्रवेश विवरण निजी रूप से साझा करें। मालिक यहाँ किसी मौजूदा खाते का कूटशब्द नहीं बदल सकता।"]="Use an existing username, or create a new account with a temporary password. Share credentials privately; the owner cannot reset an existing account's password here.";
+        शब्दकोश["Use at least 12 characters. Changing your password signs out all your sessions, including this one."]="कम से कम १२ अक्षर दें। कूटशब्द बदलने पर इस सत्र सहित आपके सभी सत्र समाप्त होंगे।"; अंग्रेज़ी["कम से कम १२ अक्षर दें। कूटशब्द बदलने पर इस सत्र सहित आपके सभी सत्र समाप्त होंगे।"]="Use at least 12 characters. Changing your password signs out all your sessions, including this one.";
+        शब्दकोश["Username"]="उपयोगकर्ता नाम"; अंग्रेज़ी["उपयोगकर्ता नाम"]="Username";
+        शब्दकोश["Value in minor units (e.g. 12500 = 125.00)"]="राशि सबसे छोटी इकाई में (जैसे 12500 = 125.00)"; अंग्रेज़ी["राशि सबसे छोटी इकाई में (जैसे 12500 = 125.00)"]="Value in minor units (e.g. 12500 = 125.00)";
+        शब्दकोश["Your account"]="आपका खाता"; अंग्रेज़ी["आपका खाता"]="Your account";
+        शब्दकोश["Your customer workspace"]="आपके ग्राहक प्रबंधन का कार्यस्थल"; अंग्रेज़ी["आपके ग्राहक प्रबंधन का कार्यस्थल"]="Your customer workspace";
+        शब्दकोश["Your organizations"]="आपके संगठन"; अंग्रेज़ी["आपके संगठन"]="Your organizations";
+        शब्दकोश[" (first 50; existing selection retained)"]=" (पहले ५०; वर्तमान चयन सुरक्षित रहेगा)"; अंग्रेज़ी[" (पहले ५०; वर्तमान चयन सुरक्षित रहेगा)"]=" (first 50; existing selection retained)";
+        शब्दकोश["Record"]="रिकॉर्ड"; अंग्रेज़ी["रिकॉर्ड"]="Record";
+        शब्दकोश["Request could not be completed"]="अनुरोध पूरा नहीं हो सका"; अंग्रेज़ी["अनुरोध पूरा नहीं हो सका"]="Request could not be completed";
+    }
+    निजी साझा फलन भाग५(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Refresh the original page before trying again."]="फिर प्रयास करने से पहले मूल पृष्ठ दोबारा खोलें।"; अंग्रेज़ी["फिर प्रयास करने से पहले मूल पृष्ठ दोबारा खोलें।"]="Refresh the original page before trying again.";
+        शब्दकोश["Return to CRM"]="सीआरएम पर लौटें"; अंग्रेज़ी["सीआरएम पर लौटें"]="Return to CRM";
+        शब्दकोश["owner"]="मालिक"; अंग्रेज़ी["मालिक"]="owner";
+        शब्दकोश["editor"]="संपादक"; अंग्रेज़ी["संपादक"]="editor";
+        शब्दकोश["viewer"]="पाठक"; अंग्रेज़ी["पाठक"]="viewer";
+        शब्दकोश["open"]="खुला"; अंग्रेज़ी["खुला"]="open";
+        शब्दकोश["active"]="सक्रिय"; अंग्रेज़ी["सक्रिय"]="active";
+        शब्दकोश["inactive"]="निष्क्रिय"; अंग्रेज़ी["निष्क्रिय"]="inactive";
+        शब्दकोश["won"]="सफल"; अंग्रेज़ी["सफल"]="won";
+        शब्दकोश["lost"]="असफल"; अंग्रेज़ी["असफल"]="lost";
+        शब्दकोश["done"]="पूरा"; अंग्रेज़ी["पूरा"]="done";
+        शब्दकोश["companies"]="कंपनियाँ"; अंग्रेज़ी["कंपनियाँ"]="companies";
+        शब्दकोश["contacts"]="संपर्क"; अंग्रेज़ी["संपर्क"]="contacts";
+        शब्दकोश["deals"]="अवसर"; अंग्रेज़ी["अवसर"]="deals";
+        शब्दकोश["tasks"]="कार्य"; अंग्रेज़ी["कार्य"]="tasks";
+        शब्दकोश["tenant"]="संगठन"; अंग्रेज़ी["संगठन"]="tenant";
+        शब्दकोश["user"]="उपयोगकर्ता"; अंग्रेज़ी["उपयोगकर्ता"]="user";
+        शब्दकोश["create"]="बनाया"; अंग्रेज़ी["बनाया"]="create";
+        शब्दकोश["update"]="बदला"; अंग्रेज़ी["बदला"]="update";
+        शब्दकोश["archive"]="संग्रहित किया"; अंग्रेज़ी["संग्रहित किया"]="archive";
+    }
+    निजी साझा फलन भाग६(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["restore"]="वापस लाया"; अंग्रेज़ी["वापस लाया"]="restore";
+        शब्दकोश["membership"]="सदस्यता बदली"; अंग्रेज़ी["सदस्यता बदली"]="membership";
+        शब्दकोश["Unsupported language."]="असमर्थित भाषा।"; अंग्रेज़ी["असमर्थित भाषा।"]="Unsupported language.";
+        शब्दकोश["Session is unavailable."]="सत्र उपलब्ध नहीं।"; अंग्रेज़ी["सत्र उपलब्ध नहीं।"]="Session is unavailable.";
+        शब्दकोश["Please sign in."]="प्रवेश आवश्यक।"; अंग्रेज़ी["प्रवेश आवश्यक।"]="Please sign in.";
+        शब्दकोश["Account is unavailable."]="खाता उपलब्ध नहीं।"; अंग्रेज़ी["खाता उपलब्ध नहीं।"]="Account is unavailable.";
+        शब्दकोश["Sign-in failed."]="प्रवेश असफल।"; अंग्रेज़ी["प्रवेश असफल।"]="Sign-in failed.";
+        शब्दकोश["Permission denied."]="अनुमति नहीं।"; अंग्रेज़ी["अनुमति नहीं।"]="Permission denied.";
+        शब्दकोश["Organization is unavailable."]="संगठन उपलब्ध नहीं।"; अंग्रेज़ी["संगठन उपलब्ध नहीं।"]="Organization is unavailable.";
+        शब्दकोश["Invalid name."]="अमान्य नाम।"; अंग्रेज़ी["अमान्य नाम।"]="Invalid name.";
+        शब्दकोश["Record is unavailable."]="रिकॉर्ड उपलब्ध नहीं।"; अंग्रेज़ी["रिकॉर्ड उपलब्ध नहीं।"]="Record is unavailable.";
+        शब्दकोश["This record changed. Reload it before editing."]="रिकॉर्ड बदल गया।"; अंग्रेज़ी["रिकॉर्ड बदल गया।"]="This record changed. Reload it before editing.";
+        शब्दकोश["Unlink or archive active related records first."]="सक्रिय संबंधित रिकॉर्ड पहले अलग करें।"; अंग्रेज़ी["सक्रिय संबंधित रिकॉर्ड पहले अलग करें।"]="Unlink or archive active related records first.";
+        शब्दकोश["Restore the related record first."]="संबंधित रिकॉर्ड पहले वापस लाएँ।"; अंग्रेज़ी["संबंधित रिकॉर्ड पहले वापस लाएँ।"]="Restore the related record first.";
+        शब्दकोश["Invalid relationship."]="अमान्य संबंध।"; अंग्रेज़ी["अमान्य संबंध।"]="Invalid relationship.";
+        शब्दकोश["Select an active related record in this organization."]="संबंध इसी संगठन के सक्रिय रिकॉर्ड से चाहिए।"; अंग्रेज़ी["संबंध इसी संगठन के सक्रिय रिकॉर्ड से चाहिए।"]="Select an active related record in this organization.";
+        शब्दकोश["An organization must retain at least one owner."]="कम से कम एक मालिक चाहिए।"; अंग्रेज़ी["कम से कम एक मालिक चाहिए।"]="An organization must retain at least one owner.";
+        शब्दकोश["Member is unavailable."]="सदस्य उपलब्ध नहीं।"; अंग्रेज़ी["सदस्य उपलब्ध नहीं।"]="Member is unavailable.";
+        शब्दकोश["Invalid role."]="अमान्य भूमिका।"; अंग्रेज़ी["अमान्य भूमिका।"]="Invalid role.";
+        शब्दकोश["Provide a password for the new account."]="नए खाते के लिए कूटशब्द दें।"; अंग्रेज़ी["नए खाते के लिए कूटशब्द दें।"]="Provide a password for the new account.";
+    }
+    निजी साझा फलन भाग७(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["An existing account's password cannot be changed here."]="मौजूदा खाते का कूटशब्द यहाँ नहीं बदलता।"; अंग्रेज़ी["मौजूदा खाते का कूटशब्द यहाँ नहीं बदलता।"]="An existing account's password cannot be changed here.";
+        शब्दकोश["Member limit reached."]="सदस्य सीमा।"; अंग्रेज़ी["सदस्य सीमा।"]="Member limit reached.";
+        शब्दकोश["Account limit reached."]="खाता सीमा।"; अंग्रेज़ी["खाता सीमा।"]="Account limit reached.";
+        शब्दकोश["Organization limit reached."]="संगठन क्षमता।"; अंग्रेज़ी["संगठन क्षमता।"]="Organization limit reached.";
+        शब्दकोश["Owned organization limit reached."]="मालिक संगठन सीमा।"; अंग्रेज़ी["मालिक संगठन सीमा।"]="Owned organization limit reached.";
+        शब्दकोश["Organization record limit reached."]="संगठन रिकॉर्ड सीमा।"; अंग्रेज़ी["संगठन रिकॉर्ड सीमा।"]="Organization record limit reached.";
+        शब्दकोश["The current password is incorrect."]="वर्तमान कूटशब्द गलत है।"; अंग्रेज़ी["वर्तमान कूटशब्द गलत है।"]="The current password is incorrect.";
+        शब्दकोश["The account changed. Please sign in again."]="खाता बदल गया; फिर प्रवेश करें।"; अंग्रेज़ी["खाता बदल गया; फिर प्रवेश करें।"]="The account changed. Please sign in again.";
+        शब्दकोश["Use at least 12 characters and at most 1024 UTF-8 bytes for the password."]="कूटशब्द कम से कम १२ अक्षर और अधिकतम १०२४ UTF-8 बाइट चाहिए।"; अंग्रेज़ी["कूटशब्द कम से कम १२ अक्षर और अधिकतम १०२४ UTF-8 बाइट चाहिए।"]="Use at least 12 characters and at most 1024 UTF-8 bytes for the password.";
+        शब्दकोश["Usernames must contain 3-64 characters."]="खाता ३–६४ अक्षर चाहिए।"; अंग्रेज़ी["खाता ३–६४ अक्षर चाहिए।"]="Usernames must contain 3-64 characters.";
+        शब्दकोश["Use lowercase Latin letters, digits, dot, underscore or hyphen in usernames."]="खाते में छोटे Latin अक्षर, अंक, . _ - दें।"; अंग्रेज़ी["खाते में छोटे Latin अक्षर, अंक, . _ - दें।"]="Use lowercase Latin letters, digits, dot, underscore or hyphen in usernames.";
+        शब्दकोश["Invalid CRM record type."]="अमान्य CRM प्रकार।"; अंग्रेज़ी["अमान्य CRM प्रकार।"]="Invalid CRM record type.";
+        शब्दकोश["Field is too large."]="क्षेत्र बहुत बड़ा।"; अंग्रेज़ी["क्षेत्र बहुत बड़ा।"]="Field is too large.";
+        शब्दकोश["Duplicate pagination field."]="दोहरा पृष्ठ।"; अंग्रेज़ी["दोहरा पृष्ठ।"]="Duplicate pagination field.";
+        शब्दकोश["Duplicate search field."]="दोहरी खोज।"; अंग्रेज़ी["दोहरी खोज।"]="Duplicate search field.";
+        शब्दकोश["Search text is too large."]="खोज बहुत बड़ी।"; अंग्रेज़ी["खोज बहुत बड़ी।"]="Search text is too large.";
+        शब्दकोश["Duplicate archive filter."]="दोहरा संग्रह।"; अंग्रेज़ी["दोहरा संग्रह।"]="Duplicate archive filter.";
+        शब्दकोश["Unknown record field."]="अज्ञात रिकॉर्ड क्षेत्र।"; अंग्रेज़ी["अज्ञात रिकॉर्ड क्षेत्र।"]="Unknown record field.";
+        शब्दकोश["Invalid status."]="अमान्य स्थिति।"; अंग्रेज़ी["अमान्य स्थिति।"]="Invalid status.";
+        शब्दकोश["Invalid currency."]="अमान्य मुद्रा।"; अंग्रेज़ी["अमान्य मुद्रा।"]="Invalid currency.";
+    }
+    निजी साझा फलन भाग८(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Invalid date."]="अमान्य तिथि।"; अंग्रेज़ी["अमान्य तिथि।"]="Invalid date.";
+        शब्दकोश["Invalid email address."]="अमान्य ईमेल।"; अंग्रेज़ी["अमान्य ईमेल।"]="Invalid email address.";
+        शब्दकोश["Invalid password."]="अमान्य कूटशब्द।"; अंग्रेज़ी["अमान्य कूटशब्द।"]="Invalid password.";
+        शब्दकोश["Check password confirmation and length."]="कूटशब्द पुष्टि और सीमा जाँचें।"; अंग्रेज़ी["कूटशब्द पुष्टि और सीमा जाँचें।"]="Check password confirmation and length.";
+        शब्दकोश["Invalid action."]="अमान्य क्रिया।"; अंग्रेज़ी["अमान्य क्रिया।"]="Invalid action.";
+        शब्दकोश["Invalid archive state."]="अमान्य संग्रह स्थिति।"; अंग्रेज़ी["अमान्य संग्रह स्थिति।"]="Invalid archive state.";
+        शब्दकोश["A required field is missing."]="अनिवार्य क्षेत्र अनुपस्थित।"; अंग्रेज़ी["अनिवार्य क्षेत्र अनुपस्थित।"]="A required field is missing.";
+        शब्दकोश["Field value is outside the allowed limits."]="क्षेत्र सीमा से बाहर।"; अंग्रेज़ी["क्षेत्र सीमा से बाहर।"]="Field value is outside the allowed limits.";
+        शब्दकोश["Too many sign-in attempts. Try again later."]="प्रवेश प्रयास सीमा।"; अंग्रेज़ी["प्रवेश प्रयास सीमा।"]="Too many sign-in attempts. Try again later.";
+        शब्दकोश["Sign-in limit capacity reached. Try again later."]="प्रवेश प्रयास क्षमता।"; अंग्रेज़ी["प्रवेश प्रयास क्षमता।"]="Sign-in limit capacity reached. Try again later.";
+        शब्दकोश["Request origin is not allowed."]="अनुरोध मूल अस्वीकार है।"; अंग्रेज़ी["अनुरोध मूल अस्वीकार है।"]="Request origin is not allowed.";
+        शब्दकोश["CSRF validation failed. Refresh the page."]="CSRF सुरक्षा जाँच असफल।"; अंग्रेज़ी["CSRF सुरक्षा जाँच असफल।"]="CSRF validation failed. Refresh the page.";
+        शब्दकोश["Do not send multiple CSRF token sources."]="मिश्रित CSRF टोकन।"; अंग्रेज़ी["मिश्रित CSRF टोकन।"]="Do not send multiple CSRF token sources.";
+        शब्दकोश["A CSRF token is required."]="CSRF टोकन चाहिए।"; अंग्रेज़ी["CSRF टोकन चाहिए।"]="A CSRF token is required.";
+        शब्दकोश["Invalid form encoding."]="अमान्य फॉर्म कूट।"; अंग्रेज़ी["अमान्य फॉर्म कूट।"]="Invalid form encoding.";
+        शब्दकोश["Invalid character in form data."]="अमान्य फॉर्म अक्षर।"; अंग्रेज़ी["अमान्य फॉर्म अक्षर।"]="Invalid character in form data.";
+        शब्दकोश["Form data must be valid UTF-8."]="फॉर्म शुद्ध UTF-8 चाहिए।"; अंग्रेज़ी["फॉर्म शुद्ध UTF-8 चाहिए।"]="Form data must be valid UTF-8.";
+        शब्दकोश["URL-encoded form data is required."]="URL encoded फॉर्म चाहिए।"; अंग्रेज़ी["URL encoded फॉर्म चाहिए।"]="URL-encoded form data is required.";
+        शब्दकोश["UTF-8 URL-encoded form data is required."]="UTF-8 URL encoded फॉर्म चाहिए।"; अंग्रेज़ी["UTF-8 URL encoded फॉर्म चाहिए।"]="UTF-8 URL-encoded form data is required.";
+        शब्दकोश["Form data is too large."]="फॉर्म बहुत बड़ा है।"; अंग्रेज़ी["फॉर्म बहुत बड़ा है।"]="Form data is too large.";
+    }
+    निजी साझा फलन भाग९(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Duplicate or oversized form field."]="दोहरा या सीमा से बाहर फॉर्म क्षेत्र।"; अंग्रेज़ी["दोहरा या सीमा से बाहर फॉर्म क्षेत्र।"]="Duplicate or oversized form field.";
+        शब्दकोश["Invalid numeric value."]="अमान्य HTTP अंक।"; अंग्रेज़ी["अमान्य HTTP अंक।"]="Invalid numeric value.";
+        शब्दकोश["Return path must stay in this app."]="वापसी का पथ इसी ऐप में होना चाहिए।"; अंग्रेज़ी["वापसी का पथ इसी ऐप में होना चाहिए।"]="Return path must stay in this app.";
+        शब्दकोश["Bhash · CRM"]="भाष · सीआरएम"; अंग्रेज़ी["भाष · सीआरएम"]="Bhash · CRM";
+    }
+    सार्वजनिक फलन पाठलो(कुंजी: पाठ) -> पाठ {
+        यदि (भाषा=="hi" && शब्दकोश.है(कुंजी)) { लौटाओ शब्दकोश[कुंजी]; }
+        यदि (भाषा=="en" && अंग्रेज़ी.है(कुंजी)) { लौटाओ अंग्रेज़ी[कुंजी]; } लौटाओ कुंजी;
+    }
+    सार्वजनिक फलन नोड(नाम: पाठ, कुंजी: पाठ) -> दृश्य { लौटाओ दृश्य.शब्द(नाम,यह.पाठलो(कुंजी)); }
+    सार्वजनिक फलन कड़ी(पथ: पाठ, कुंजी: पाठ) -> दृश्य { लौटाओ दृश्य.कड़ी(पथ,यह.पाठलो(कुंजी)); }
+    सार्वजनिक फलन क्षेत्र(नाम: पाठ, कुंजी: पाठ, प्रकार: पाठ, मानक: पाठ) -> दृश्य { लौटाओ दृश्य.क्षेत्र(नाम,यह.पाठलो(कुंजी),प्रकार,मानक); }
+    सार्वजनिक फलन भेजो(कुंजी: पाठ) -> दृश्य { लौटाओ दृश्य.भेजो(यह.पाठलो(कुंजी)); }
+    सार्वजनिक फलन पृष्ठ(शीर्षक: पाठ, शरीर: दृश्य) -> वेबउत्तर { लौटाओ दृश्य.पृष्ठ(शीर्षक,शरीर,भाषा); }
+}

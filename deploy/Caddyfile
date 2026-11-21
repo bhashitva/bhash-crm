@@ -1,0 +1,5 @@
+# Add this site block to the existing Caddy configuration; retain existing sites.
+bhashcrm.bhashitva.org {
+    encode zstd gzip
+    reverse_proxy 127.0.0.1:8092
+}

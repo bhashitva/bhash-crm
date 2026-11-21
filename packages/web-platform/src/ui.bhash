@@ -1,0 +1,73 @@
+// SPDX-License-Identifier: Apache-2.0
+संकुल अनुप्रयोग;
+आयात मानक.पाठ्य;
+आयात मानक.वेब;
+आयात मानक.वेबउत्तर;
+
+// An escaped tree: application data never becomes markup or executable code.
+सार्वजनिक वर्ग दृश्य {
+    निजी स्थिर नाम: पाठ;
+    निजी स्थिर सामग्री: पाठ;
+    निजी मान बच्चे: सूची<दृश्य>;
+    निजी मान गुणसूची: मानचित्र<पाठ,पाठ>;
+    निजी निर्माता(नाम: पाठ, सामग्री: पाठ) { यह.नाम=नाम; यह.सामग्री=सामग्री; बच्चे=नया सूची<दृश्य>(); गुणसूची=नया मानचित्र<पाठ,पाठ>(); }
+    सार्वजनिक साझा फलन अक्षर(मानक: पाठ) -> दृश्य { लौटाओ नया दृश्य("",मानक); }
+    सार्वजनिक साझा फलन खंड(नाम: पाठ) -> दृश्य {
+        यदि (!पाठ्य.है("|html|head|body|main|header|nav|section|article|aside|footer|div|span|h1|h2|h3|p|a|form|label|input|button|select|option|textarea|table|thead|tbody|tr|th|td|ul|li|strong|small|title|meta|link|", "|"+नाम+"|")) { फेंको नया अपवाद("असमर्थित दृश्य खंड।"); }
+        लौटाओ नया दृश्य(नाम,"");
+    }
+    सार्वजनिक साझा फलन सुरक्षितपथ(मानक: पाठ) -> शून्य {
+        यदि (!पाठ्य.आरंभ(मानक,"/") || पाठ्य.आरंभ(मानक,"//") || पाठ्य.है(मानक,"\\") || पाठ्य.लंबाई(मानक)>२०४८) { फेंको नया अपवाद("स्थानीय अनुप्रयोग पथ चाहिए।"); }
+        प्रत्येक (पाठ्य.यूटीएफ८(मानक) में ब: बाइट) { यदि (परिवर्तित<पूर्णांक>(ब)<३३ || परिवर्तित<पूर्णांक>(ब)==१२७) { फेंको नया अपवाद("अमान्य अनुप्रयोग पथ।"); } }
+    }
+    सार्वजनिक फलन गुण(नाम: पाठ, मानक: पाठ) -> दृश्य {
+        यदि (यह.नाम=="" || !पाठ्य.है("|class|id|name|type|value|method|action|href|rel|lang|charset|content|placeholder|required|maxlength|min|max|step|selected|disabled|aria-label|role|autocomplete|", "|"+नाम+"|")) { फेंको नया अपवाद("असमर्थित दृश्य गुण।"); }
+        यदि (नाम=="href" || नाम=="action") { दृश्य.सुरक्षितपथ(मानक); }
+        यदि (नाम=="method" && मानक!="post" && मानक!="get") { फेंको नया अपवाद("अमान्य फॉर्म विधि।"); }
+        गुणसूची[नाम]=मानक; लौटाओ यह;
+    }
+    सार्वजनिक फलन जोड़ो(बच्चा: दृश्य) -> दृश्य {
+        यदि (बच्चा==रिक्त || नाम=="" || नाम=="input" || नाम=="meta" || नाम=="link" || बच्चा==यह) { फेंको नया अपवाद("अमान्य दृश्य बच्चा।"); }
+        बच्चे.जोड़ो(बच्चा); लौटाओ यह;
+    }
+    सार्वजनिक साझा फलन बचाओ(मानक: पाठ) -> पाठ {
+        लौटाओ पाठ्य.बदलो(पाठ्य.बदलो(पाठ्य.बदलो(पाठ्य.बदलो(पाठ्य.बदलो(मानक,"&","&amp;"),"<","&lt;"),">","&gt;"),"\"","&quot;"),"'","&#39;");
+    }
+    सार्वजनिक फलन एचटीएमएल() -> पाठ { लौटाओ यह.बनाओ(०); }
+    निजी फलन बनाओ(गहराई: पूर्णांक) -> पाठ {
+        यदि (गहराई>६४) { फेंको नया अपवाद("दृश्य बहुत गहरा है।"); }
+        यदि (नाम=="") { लौटाओ दृश्य.बचाओ(सामग्री); }
+        मान फल: पाठ="<"+नाम;
+        प्रत्येक (गुणसूची.कुंजियाँ() में न: पाठ) { फल=फल+" "+न+"=\""+दृश्य.बचाओ(गुणसूची[न])+"\""; }
+        फल=फल+">";
+        यदि (नाम=="input" || नाम=="meta" || नाम=="link") { लौटाओ फल; }
+        प्रत्येक (बच्चे में ब: दृश्य) { फल=फल+ब.बनाओ(गहराई+१); यदि (पाठ्य.यूटीएफ८(फल).आकार>९०००००) { फेंको नया अपवाद("दृश्य सीमा पार।"); } }
+        लौटाओ फल+"</"+नाम+">";
+    }
+    सार्वजनिक साझा फलन शब्द(नाम: पाठ, मानक: पाठ) -> दृश्य { लौटाओ दृश्य.खंड(नाम).जोड़ो(दृश्य.अक्षर(मानक)); }
+    सार्वजनिक साझा फलन कड़ी(पथ: पाठ, शीर्षक: पाठ) -> दृश्य { लौटाओ दृश्य.शब्द("a",शीर्षक).गुण("href",पथ); }
+    सार्वजनिक साझा फलन छिपा(नाम: पाठ, मानक: पाठ) -> दृश्य { लौटाओ दृश्य.खंड("input").गुण("type","hidden").गुण("name",नाम).गुण("value",मानक); }
+    सार्वजनिक साझा फलन क्षेत्र(नाम: पाठ, शीर्षक: पाठ, प्रकार: पाठ, मानक: पाठ) -> दृश्य {
+        लौटाओ दृश्य.खंड("label").जोड़ो(दृश्य.अक्षर(शीर्षक)).जोड़ो(दृश्य.खंड("input").गुण("name",नाम).गुण("type",प्रकार).गुण("value",मानक).गुण("maxlength","1024").गुण("required","required"));
+    }
+    सार्वजनिक साझा फलन फॉर्म(पथ: पाठ, टोकन: पाठ) -> दृश्य { लौटाओ दृश्य.खंड("form").गुण("method","post").गुण("action",पथ).जोड़ो(दृश्य.छिपा("_csrf",टोकन)); }
+    सार्वजनिक साझा फलन भेजो(शीर्षक: पाठ) -> दृश्य { लौटाओ दृश्य.शब्द("button",शीर्षक).गुण("type","submit"); }
+    सार्वजनिक साझा फलन पृष्ठ(शीर्षक: पाठ, शरीर: दृश्य) -> वेबउत्तर {
+        लौटाओ दृश्य.पृष्ठ(शीर्षक,शरीर,"en");
+    }
+    सार्वजनिक साझा फलन पृष्ठ(शीर्षक: पाठ, शरीर: दृश्य, भाषा: पाठ) -> वेबउत्तर {
+        यदि (भाषा!="hi" && भाषा!="en") { फेंको नया अपवाद("असमर्थित पृष्ठ भाषा।"); }
+        स्थिर सिर: दृश्य=दृश्य.खंड("head").जोड़ो(दृश्य.खंड("meta").गुण("charset","utf-8")).जोड़ो(दृश्य.खंड("meta").गुण("name","viewport").गुण("content","width=device-width, initial-scale=1")).जोड़ो(दृश्य.शब्द("title",शीर्षक+" · Bhash CRM")).जोड़ो(दृश्य.खंड("link").गुण("rel","stylesheet").गुण("href","/assets/platform.css"));
+        स्थिर उ: वेबउत्तर=वेब.एचटीएमएल(२००,"<!doctype html>"+दृश्य.खंड("html").गुण("lang",भाषा).जोड़ो(सिर).जोड़ो(दृश्य.खंड("body").जोड़ो(शरीर)).एचटीएमएल());
+        उ.शीर्षरखो("Content-Language",भाषा);
+        उ.शीर्षरखो("Content-Security-Policy","default-src 'none'; style-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'");
+        लौटाओ उ;
+    }
+    सार्वजनिक साझा फलन आगे(पथ: पाठ) -> वेबउत्तर {
+        दृश्य.सुरक्षितपथ(पथ); स्थिर उ: वेबउत्तर=वेब.पाठउत्तर(३०३,""); उ.शीर्षरखो("Location",पथ); लौटाओ उ;
+    }
+    सार्वजनिक साझा फलन शैली() -> वेबउत्तर {
+        स्थिर उ: वेबउत्तर=वेब.पाठउत्तर(२००,"*{box-sizing:border-box}body{margin:0;background:#f3f5fa;color:#172239;font:16px/1.55 system-ui,sans-serif}main{max-width:1240px;margin:auto;padding:2rem}header{background:#172239;color:white;padding:1.4rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}header a{color:#dce6ff}nav{display:flex;gap:1rem;flex-wrap:wrap}a{color:#245acb}h1,h2,h3{line-height:1.2}h1{font-size:2rem;margin:.5rem 0 1.5rem}h2{font-size:1.4rem}section,article,.panel{background:white;padding:1.5rem;border:1px solid #dce1ec;border-radius:12px;margin-bottom:1.5rem}label{display:block;font-size:.9rem;font-weight:600;margin-bottom:1rem}input,select,textarea,button{font:inherit}input,select,textarea{display:block;width:100%;padding:.65rem;border:1px solid #a6b1c3;border-radius:6px;margin-top:.35rem;background:white}input[type=hidden]{display:none}button{padding:.65rem 1rem;background:#245acb;color:white;border:0;border-radius:6px;cursor:pointer}button:hover{background:#1745a3}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f0ab00;outline-offset:3px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:.85rem;border-bottom:1px solid #e4e8f0;vertical-align:top}th{font-size:.9rem;color:#53627a}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}.pipeline{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:1rem;overflow:auto}.muted,small{color:#5c687b}.badge{display:inline-block;background:#eaf0fd;color:#245acb;padding:.2rem .6rem;border-radius:20px;font-size:.9rem}.money{font-size:1.5rem;font-weight:700}.narrow{max-width:520px;margin:4rem auto}.table-wrap{overflow:auto}header form{margin:0}header button{background:#344560}.empty{padding:2rem;color:#5c687b}.danger{background:#9d2532}@media(max-width:600px){main{padding:1rem}header{padding:1rem}.pipeline{grid-template-columns:1fr}th,td{padding:.5rem}h1{font-size:1.6rem}}");
+        उ.शीर्षरखो("Content-Type","text/css; charset=utf-8"); लौटाओ उ;
+    }
+}

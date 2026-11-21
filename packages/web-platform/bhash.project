@@ -1,0 +1,4 @@
+name=bhash-web-platform
+kind=library
+version=0.1.0
+sources=src

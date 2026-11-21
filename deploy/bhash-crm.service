@@ -1,0 +1,24 @@
+[Unit]
+Description=Bhash CRM
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bhash-crm
+Group=bhash-crm
+WorkingDirectory=/opt/bhash-crm
+StateDirectory=bhash-crm
+Environment=LANG=C.UTF-8
+ExecStart=/usr/bin/java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -jar /opt/bhash-crm/target/crm.jar --db=/var/lib/bhash-crm/crm.db --port=8092 --origin=https://bhashcrm.bhashitva.org
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

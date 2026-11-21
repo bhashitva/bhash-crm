@@ -1,0 +1,17 @@
+target/
+data/
+backups/
+build/
+.bhash/
+*.db
+*.db-*
+*.sqlite*
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+*.class
+*.jar
+*.pem
+*.key

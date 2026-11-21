@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: Apache-2.0
+आयात अनुप्रयोग.मंच;
+आयात मानक.माइग्रेशन; आयात मानक.माइग्रेशनयोजना; आयात मानक.डेटासंबंध;
+वर्ग सीआरएमस्कीमा {
+    सार्वजनिक साझा फलन आरंभकरो(ड: डेटासंबंध) -> शून्य {
+        स्थिर बदलाव: सूची<माइग्रेशन> = मंच.माइग्रेशनलो();
+        बदलाव.जोड़ो(नया माइग्रेशन(२,"CRM records",नया सूची<पाठ>{
+            "CREATE TABLE crm_records (tenant_id TEXT NOT NULL REFERENCES platform_tenants(id), id TEXT NOT NULL, kind TEXT NOT NULL CHECK (kind IN ('companies','contacts','deals','tasks')), name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, notes TEXT NOT NULL, related_id TEXT, stage TEXT NOT NULL, amount_minor BIGINT NOT NULL CHECK(amount_minor>=0), currency TEXT NOT NULL, due_date TEXT NOT NULL, version BIGINT NOT NULL, archived BOOLEAN NOT NULL, PRIMARY KEY(tenant_id,id), FOREIGN KEY(tenant_id,related_id) REFERENCES crm_records(tenant_id,id))",
+            "CREATE INDEX crm_records_list ON crm_records(tenant_id,kind,archived,name,id)"
+        }));
+        बदलाव.जोड़ो(नया माइग्रेशन(३,"User display languages",नया सूची<पाठ>{
+            "ALTER TABLE platform_users ADD COLUMN ui_language TEXT NOT NULL DEFAULT 'hi' CHECK (ui_language IN ('hi','en'))",
+            "ALTER TABLE platform_sessions ADD COLUMN display_language TEXT NOT NULL DEFAULT '' CHECK (display_language IN ('','hi','en'))"
+        }));
+        स्थिर योजना: माइग्रेशनयोजना=नया माइग्रेशनयोजना(बदलाव); योजना.लागूकरो(ड);
+    }
+}

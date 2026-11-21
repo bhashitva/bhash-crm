@@ -1,0 +1,71 @@
+name: Build and test Bhash CRM
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: crm-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-24.04, target: jvm}
+          - {os: windows-latest, target: jvm}
+          - {os: ubuntu-24.04, target: clr}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-dotnet@v5
+        if: matrix.target == 'clr'
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build pinned compiler and app
+        shell: pwsh
+        run: ./build.ps1
+      - name: Library and launcher checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          compiler=target/bhash-compiler-0.28.0.jar
+          java -jar "$compiler" deps verify packages/web-platform/tests
+          java -jar "$compiler" compile packages/web-platform/tests -o target/platform-tests.jar
+          java -jar target/platform-tests.jar
+          javac -d target/launcher-tests StartCrm.java tests/LauncherChecks.java
+          java -cp target/launcher-tests LauncherChecks
+          python tests/verify_terminal.py
+          python tests/verify_setup.py
+          java -jar "$compiler" deps verify tests/legacy-setup
+          java -jar "$compiler" compile tests/legacy-setup -o target/legacy-setup.jar
+          python tests/verify_migration.py
+      - name: Compile CLR backend
+        if: matrix.target == 'clr'
+        shell: pwsh
+        run: ./build.ps1 -Target clr
+      - name: Integration tests
+        shell: bash
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          if [ "$TARGET" = clr ]; then
+            python tests/verify.py --clr target/crm-clr --report target/verification.json
+          else
+            python tests/verify.py --jar target/crm.jar --report target/verification.json
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: crm-${{ matrix.os }}-${{ matrix.target }}
+          path: |
+            target/crm.jar
+            target/verification.json

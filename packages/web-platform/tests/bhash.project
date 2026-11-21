@@ -1,0 +1,4 @@
+name=bhash-web-platform-tests
+sources=src
+dependency.platform.path=..
+dependency.platform.version=0.1.0

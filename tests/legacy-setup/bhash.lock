@@ -1,0 +1,18 @@
+{
+  "lockVersion": 1,
+  "root": {
+    "manifestSha256": "fd2f2922a92dea1ca15b69122acc388a613e4321f1c79bf2c090a2adfb083980"
+  },
+  "packages": [
+    {
+      "name": "bhash-web-platform",
+      "version": "0.1.0",
+      "source": {
+        "type": "path",
+        "path": "../../packages/web-platform"
+      },
+      "manifestSha256": "810ded211b663f7794c604a367931c69b3c6c2118b409ec033679a809cfcca0b",
+      "sourcesSha256": "f403ad9033d5262c1f4d3169b49d95644d7a36dde063d6c9f12ee505c87a5aef"
+    }
+  ]
+}

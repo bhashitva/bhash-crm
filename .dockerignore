@@ -1,0 +1,13 @@
+.git
+target
+data
+backups
+.env
+.env.*
+*.db
+*.db-*
+*.sqlite*
+__pycache__
+**/__pycache__
+*.key
+*.pem

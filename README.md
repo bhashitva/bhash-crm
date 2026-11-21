@@ -1,0 +1,128 @@
+# भाष सीआरएम · Bhash CRM
+
+A multi-tenant CRM authored in **Bhash**, with **Hindi as the default UI language**
+and English available per user. Application screens, forms, routing, business
+rules, authorization and persistence are Bhash source. HTML/CSS are rendered by
+its Bhash framework; application JavaScript is unnecessary.
+
+Deployment hostname: **https://bhashcrm.bhashitva.org**.
+
+## Features
+
+- Organizations and owner/editor/viewer memberships, with tenant-scoped records.
+- Companies, contacts, opportunities, tasks, notes and related records.
+- Search, pagination, archive/restore, exact money in minor units and an audit trail.
+- Persistent database sessions, CSRF protection, login limits and password changes.
+- Hindi/English labels, navigation, forms, statuses and expected error pages.
+- A language switch on the sign-in screen and every authenticated page.
+- **खाता → भाषा की पसंद** / **Account → Language preference** saves the user's
+  default language in the database. It applies at subsequent sign-ins.
+- Current-session language switches do not silently overwrite the saved default.
+  Customer-entered content is never translated. Language state is request-scoped.
+
+The language migration appends schema version 3: existing accounts default to
+Hindi; password hashes, memberships and CRM data remain intact.
+
+## Build
+
+Use a full JDK 17 or later. Builds pin Bhash **0.28.0** and verify its SHA-256
+against [compiler.lock.json](compiler.lock.json). A separate Bhash checkout is not
+required. The reusable source package and its verified lockfiles are included.
+
+Linux / Git Bash:
+
+```sh
+sh build.sh
+```
+
+Windows PowerShell, if local scripts are permitted:
+
+```powershell
+.\build.ps1
+```
+
+On a system requiring signed PowerShell scripts, run these commands directly:
+
+```powershell
+$compiler = Get-Content compiler.lock.json -Raw | ConvertFrom-Json
+New-Item -ItemType Directory -Path target -Force | Out-Null
+Invoke-WebRequest $compiler.url -OutFile target/compiler.jar
+if ((Get-FileHash target/compiler.jar -Algorithm SHA256).Hash.ToLowerInvariant() -ne $compiler.sha256) { throw 'Compiler checksum mismatch' }
+java -jar target/compiler.jar deps verify .
+java -jar target/compiler.jar compile . -o target/crm.jar
+```
+
+## Run locally
+
+From the repository root:
+
+```powershell
+java .\StartCrm.java
+```
+
+The launcher prompts for the initial owner, organization and a hidden password.
+It resumes a schema-only failed setup without resetting an existing account.
+Data is stored in the ignored `data/crm.db`. Both **http://localhost:8080** and
+**http://127.0.0.1:8080** work. They have separate browser cookies; sign in on each
+address you use. Exact matching Host/Origin checks remain enforced.
+
+To reuse the earlier compiler-workspace CRM database, stop that server, make a
+backup, then use `--database` with the database's full path. The migration is
+forward-only; keep the backup if you need to return to the earlier app version.
+
+The Java and PowerShell launchers configure UTF-8 terminal output on Windows,
+without changing PowerShell execution policy. `java StartCrm.java --terminal-check`
+prints Hindi on both output streams without starting the app. `--help` lists
+`--jar`, `--database` and `--port` overrides.
+
+A built JAR needs Java 17+ only. Python and the Java launcher are setup/test tools,
+not the application runtime. For direct launch:
+
+```sh
+java -jar target/crm.jar --db=/absolute/path/crm.db --port=8080 --local=true
+```
+
+## VPS deployment
+
+See [deploy/README.md](deploy/README.md) for Docker Compose, persistent storage,
+HTTPS at the requested hostname, owner provisioning, backups and upgrades.
+The [Caddy site block](deploy/Caddyfile) and [systemd service](deploy/bhash-crm.service)
+are included. Keep existing sites and DNS/email records when installing this app.
+Public deployments use an explicit HTTPS origin and secure host-only cookies;
+local aliases are not enabled in production.
+
+## Verify
+
+```sh
+python tests/verify.py --jar target/crm.jar --report target/verification.json
+python tests/verify_setup.py
+python tests/verify_terminal.py
+java -jar target/bhash-compiler-0.28.0.jar deps verify packages/web-platform/tests
+java -jar target/bhash-compiler-0.28.0.jar compile packages/web-platform/tests -o target/platform-tests.jar
+java -jar target/platform-tests.jar
+```
+
+Migration preservation is tested by building the included schema-v2 fixture and
+running `tests/verify_migration.py`. CI covers Windows/Linux JVM and Linux .NET.
+Use `./build.ps1 -Target clr` and `python tests/verify.py --clr target/crm-clr` for
+.NET. PostgreSQL is supported through `BHASH_PG_*` configuration and
+`--provider=postgresql`; its integration harness requires an empty dedicated test
+DB and `BHASH_CRM_TEST_POSTGRES=true` (optional `psycopg` test client).
+
+The synchronous reference app has explicit safety bounds and has not been
+load-tested for a promised user count. MFA/SSO, emailed recovery/invitations,
+attachments, durable jobs, streaming exports and PostgreSQL RLS are follow-ups.
+See [VALIDATION.md](VALIDATION.md) for actual verification evidence.
+
+## Source layout
+
+- `src/`: Bhash application, bilingual catalog, profile preferences and migrations.
+- `packages/web-platform/`: reusable Bhash UI, forms, sessions and tenant policy.
+- `tests/`: HTTP, migration, launcher and encoding regression checks.
+- `deploy/`: VPS deployment templates; secrets and databases are never committed.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE) and
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Bhash is developed at
+[bhashitva/bhash](https://github.com/bhashitva/bhash).

@@ -1,0 +1,4 @@
+name=crm-schema-v2-fixture
+sources=src
+dependency.platform.path=../../packages/web-platform
+dependency.platform.version=0.1.0

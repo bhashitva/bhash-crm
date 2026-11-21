@@ -1,0 +1,43 @@
+// SPDX-License-Identifier: Apache-2.0
+संकुल अनुप्रयोग;
+आयात मानक.माइग्रेशन; आयात मानक.माइग्रेशनयोजना; आयात मानक.डेटासंबंध;
+आयात मानक.डेटाकथन; आयात मानक.डेटालेनदेन; आयात मानक.समय; आयात मानक.वेबत्रुटि;
+आयात मानक.डेटाचेकसम;
+
+सार्वजनिक वर्ग मंच {
+    सार्वजनिक साझा फलन माइग्रेशनलो() -> सूची<माइग्रेशन> {
+        लौटाओ नया सूची<माइग्रेशन>{
+            नया माइग्रेशन(१,"Bhash web platform",नया सूची<पाठ>{
+                "CREATE TABLE platform_lock (id BIGINT PRIMARY KEY, revision BIGINT NOT NULL)",
+                "INSERT INTO platform_lock(id,revision) VALUES (1,0)",
+                "CREATE TABLE platform_users (id TEXT PRIMARY KEY, username TEXT UNIQUE NOT NULL, password_hash TEXT NOT NULL, active BOOLEAN NOT NULL)",
+                "CREATE TABLE platform_tenants (id TEXT PRIMARY KEY, name TEXT NOT NULL, revision BIGINT NOT NULL)",
+                "CREATE TABLE platform_members (tenant_id TEXT NOT NULL REFERENCES platform_tenants(id), user_id TEXT NOT NULL REFERENCES platform_users(id), role TEXT NOT NULL CHECK (role IN ('owner','editor','viewer')), PRIMARY KEY(tenant_id,user_id))",
+                "CREATE TABLE platform_sessions (token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL, csrf TEXT NOT NULL, born BIGINT NOT NULL, touched BIGINT NOT NULL)",
+                "CREATE INDEX platform_sessions_user ON platform_sessions(user_id)",
+                "CREATE INDEX platform_sessions_expiry ON platform_sessions(touched,born)",
+                "CREATE TABLE platform_login_limits (account_hash TEXT PRIMARY KEY, started BIGINT NOT NULL, attempts BIGINT NOT NULL)",
+                "CREATE TABLE platform_audit (id TEXT PRIMARY KEY, tenant_id TEXT NOT NULL REFERENCES platform_tenants(id), actor TEXT NOT NULL REFERENCES platform_users(id), action TEXT NOT NULL, entity TEXT NOT NULL, entity_id TEXT NOT NULL, created BIGINT NOT NULL)",
+                "CREATE INDEX platform_audit_tenant ON platform_audit(tenant_id,created,id)"
+            })
+        };
+    }
+    // Shared counter is checked before expensive password work; restarts do not reset it.
+    सार्वजनिक साझा फलन प्रवेशसीमा(स्रोत: डेटास्रोत, खाता: पाठ) -> शून्य {
+        स्थिर अब: पूर्णांक=समय.अभी(); स्थिर ह: पाठ=डेटाचेकसम.शा२५६(खाता);
+        संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) { संसाधन (ल: डेटालेनदेन=ड.लेनदेन()) {
+            संसाधन (क: डेटाकथन=ड.तैयार("UPDATE platform_lock SET revision=revision WHERE id=1")) { क.चलाओ(); }
+            संसाधन (क: डेटाकथन=ड.तैयार("DELETE FROM platform_login_limits WHERE started<=?")) { क.पूर्णांकरखो(१,अब-३०००००); क.चलाओ(); }
+            मान मिला: तार्किक=असत्य;
+            संसाधन (क: डेटाकथन=ड.तैयार("SELECT attempts,started FROM platform_login_limits WHERE account_hash=?")) {
+                क.पाठरखो(१,ह); यदि (क.अगला()) { मिला=सत्य; यदि (क.पूर्णांकलो(०)>=५ || क.पूर्णांकलो(१)>अब) { फेंको नया वेबत्रुटि(४२९,"प्रवेश प्रयास सीमा।"); } }
+            }
+            यदि (!मिला) {
+                संसाधन (क: डेटाकथन=ड.तैयार("SELECT COUNT(*) FROM platform_login_limits")) { क.अगला(); यदि (क.पूर्णांकलो(०)>=१००००) { फेंको नया वेबत्रुटि(४२९,"प्रवेश प्रयास क्षमता।"); } }
+                संसाधन (क: डेटाकथन=ड.तैयार("INSERT INTO platform_login_limits(account_hash,started,attempts) VALUES (?,?,0)")) { क.पाठरखो(१,ह); क.पूर्णांकरखो(२,अब); क.चलाओ(); }
+            }
+            संसाधन (क: डेटाकथन=ड.तैयार("UPDATE platform_login_limits SET attempts=attempts+1 WHERE account_hash=?")) { क.पाठरखो(१,ह); क.चलाओ(); }
+            ल.सहेजो();
+        } }
+    }
+}

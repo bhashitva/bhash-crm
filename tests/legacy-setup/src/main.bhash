@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: Apache-2.0
+आयात अनुप्रयोग.मंच;
+आयात मानक.माइग्रेशन; आयात मानक.माइग्रेशनयोजना; आयात मानक.डेटासंबंध;
+आयात अनुप्रयोग.डेटास्रोत; आयात मानक.विन्यास; आयात मानक.कूटशब्द; आयात मानक.डेटाकथन;
+वर्ग सीआरएमस्कीमा {
+    सार्वजनिक साझा फलन आरंभकरो(ड: डेटासंबंध) -> शून्य {
+        स्थिर बदलाव: सूची<माइग्रेशन> = मंच.माइग्रेशनलो();
+        बदलाव.जोड़ो(नया माइग्रेशन(२,"CRM records",नया सूची<पाठ>{
+            "CREATE TABLE crm_records (tenant_id TEXT NOT NULL REFERENCES platform_tenants(id), id TEXT NOT NULL, kind TEXT NOT NULL CHECK (kind IN ('companies','contacts','deals','tasks')), name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, notes TEXT NOT NULL, related_id TEXT, stage TEXT NOT NULL, amount_minor BIGINT NOT NULL CHECK(amount_minor>=0), currency TEXT NOT NULL, due_date TEXT NOT NULL, version BIGINT NOT NULL, archived BOOLEAN NOT NULL, PRIMARY KEY(tenant_id,id), FOREIGN KEY(tenant_id,related_id) REFERENCES crm_records(tenant_id,id))",
+            "CREATE INDEX crm_records_list ON crm_records(tenant_id,kind,archived,name,id)"
+        }));
+        स्थिर योजना: माइग्रेशनयोजना=नया माइग्रेशनयोजना(बदलाव); योजना.लागूकरो(ड);
+    }
+}
+फलन मुख्य() -> शून्य {
+    स्थिर त: विन्यास=विन्यास.तर्क(); स्थिर स्रोत: डेटास्रोत=नया डेटास्रोत("sqlite",त.पढ़ो("db","legacy.db"));
+    संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) {
+        सीआरएमस्कीमा.आरंभकरो(ड);
+        संसाधन (क: डेटाकथन=ड.तैयार("INSERT INTO platform_users(id,username,password_hash,active) VALUES ('legacy-owner','legacy-owner',?,TRUE)")) { क.पाठरखो(१,कूटशब्द.हैशबनाओ(विन्यास.परिवेश("BHASH_CRM_PASSWORD",""))); क.चलाओ(); }
+        संसाधन (क: डेटाकथन=ड.तैयार("INSERT INTO platform_tenants(id,name,revision) VALUES ('legacy-tenant','पुराना संगठन',0)")) { क.चलाओ(); }
+        संसाधन (क: डेटाकथन=ड.तैयार("INSERT INTO platform_members(tenant_id,user_id,role) VALUES ('legacy-tenant','legacy-owner','owner')")) { क.चलाओ(); }
+        संसाधन (क: डेटाकथन=ड.तैयार("INSERT INTO crm_records(tenant_id,id,kind,name,email,phone,notes,stage,amount_minor,currency,due_date,version,archived) VALUES ('legacy-tenant','legacy-company','companies','पुरानी कंपनी','','','Preserve customer data','open',0,'USD','',1,FALSE)")) { क.चलाओ(); }
+    }
+}
