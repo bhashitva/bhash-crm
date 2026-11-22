@@ -41,7 +41,7 @@
         लौटाओ स्रोतदृश्य.कोडपृष्ठ(अ,कोड);
     }
     निजी साझा फलन जाँचो(पृष्ठ: पाठ) -> शून्य {
-        प्रत्येक (नया सूची<पाठ>{"signin","signup","verify","organizations","overview","list","record","members","audit","account","error","shared"} में नाम: पाठ) { यदि (पृष्ठ==नाम) { लौटाओ; } }
+        प्रत्येक (नया सूची<पाठ>{"signin","signup","verify","forgot","reset","organizations","overview","list","record","members","audit","account","error","shared"} में नाम: पाठ) { यदि (पृष्ठ==नाम) { लौटाओ; } }
         फेंको नया वेबत्रुटि(४०४,"स्रोत पृष्ठ उपलब्ध नहीं।");
     }
     सार्वजनिक साझा फलन पैनल(अ: अनुवाद, पृष्ठ: पाठ) -> दृश्य {
@@ -69,7 +69,7 @@
         आगे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/source_viewer.bhash","viewer",पृष्ठ,अ.भाषा));
         पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/web.bhash · "+अ.पाठलो("Request handlers"),"routing",पृष्ठ,अ.भाषा));
         यदि (पृष्ठ=="record") { पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/web.bhash · "+अ.पाठलो("Record validation"),"validation",पृष्ठ,अ.भाषा)); }
-        यदि (पृष्ठ=="signup" || पृष्ठ=="verify") { पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/signup.bhash","signup",पृष्ठ,अ.भाषा)); }
+        यदि (पृष्ठ=="signup" || पृष्ठ=="verify" || पृष्ठ=="forgot" || पृष्ठ=="reset") { पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/signup.bhash","signup",पृष्ठ,अ.भाषा)); }
         पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("src/main.bhash","main",पृष्ठ,अ.भाषा));
         पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("packages/web-platform/src/forms.bhash","forms",पृष्ठ,अ.भाषा));
         पीछे.जोड़ो(स्रोतदृश्य.आलसीखंड("packages/web-platform/src/sessions.bhash","sessions",पृष्ठ,अ.भाषा));

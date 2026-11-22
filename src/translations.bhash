@@ -18,6 +18,7 @@
         अनुवाद.भाग१०(शब्दकोश,अंग्रेज़ी);
         अनुवाद.भाग12(शब्दकोश,अंग्रेज़ी);
         अनुवाद.भाग11(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग13(शब्दकोश,अंग्रेज़ी);
     }
     निजी साझा फलन भाग१(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
         शब्दकोश["Signed in as"]="वर्तमान उपयोगकर्ता";
@@ -254,6 +255,26 @@
         शब्दकोश["Verify your Bhash CRM email"]="अपना भाष सीआरएम ईमेल सत्यापित करें"; अंग्रेज़ी["अपना भाष सीआरएम ईमेल सत्यापित करें"]="Verify your Bhash CRM email";
         शब्दकोश["Open this link to verify your email and finish creating your account. The link expires in 30 minutes."]="ईमेल सत्यापित करके खाता बनाना पूरा करने के लिए यह लिंक खोलें। लिंक ३० मिनट में समाप्त हो जाता है।"; अंग्रेज़ी["ईमेल सत्यापित करके खाता बनाना पूरा करने के लिए यह लिंक खोलें। लिंक ३० मिनट में समाप्त हो जाता है।"]="Open this link to verify your email and finish creating your account. The link expires in 30 minutes.";
         शब्दकोश["If you did not request this email, you can ignore it."]="यदि आपने यह ईमेल नहीं माँगा था, तो इसे अनदेखा कर सकते हैं।"; अंग्रेज़ी["यदि आपने यह ईमेल नहीं माँगा था, तो इसे अनदेखा कर सकते हैं।"]="If you did not request this email, you can ignore it.";
+    }
+    निजी साझा फलन भाग13(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Forgot password?"]="कूटशब्द भूल गए?"; अंग्रेज़ी["कूटशब्द भूल गए?"]="Forgot password?";
+        शब्दकोश["Registered email address"]="पंजीकृत ईमेल पता"; अंग्रेज़ी["पंजीकृत ईमेल पता"]="Registered email address";
+        शब्दकोश["Enter the email address registered with your account."]="अपने खाते में पंजीकृत ईमेल पता दें।"; अंग्रेज़ी["अपने खाते में पंजीकृत ईमेल पता दें।"]="Enter the email address registered with your account.";
+        शब्दकोश["Send password reset link"]="कूटशब्द बदलने का लिंक भेजें"; अंग्रेज़ी["कूटशब्द बदलने का लिंक भेजें"]="Send password reset link";
+        शब्दकोश["If an eligible account uses that email, a password reset link has been sent. Check your inbox and spam folder. The link expires in 30 minutes."]="यदि इस ईमेल से योग्य खाता जुड़ा है, तो कूटशब्द बदलने का लिंक भेज दिया गया है। इनबॉक्स और स्पैम फ़ोल्डर देखें। लिंक ३० मिनट में समाप्त हो जाता है।"; अंग्रेज़ी["यदि इस ईमेल से योग्य खाता जुड़ा है, तो कूटशब्द बदलने का लिंक भेज दिया गया है। इनबॉक्स और स्पैम फ़ोल्डर देखें। लिंक ३० मिनट में समाप्त हो जाता है।"]="If an eligible account uses that email, a password reset link has been sent. Check your inbox and spam folder. The link expires in 30 minutes.";
+        शब्दकोश["Request another reset link"]="नया कूटशब्द लिंक माँगें"; अंग्रेज़ी["नया कूटशब्द लिंक माँगें"]="Request another reset link";
+        शब्दकोश["Reset password"]="कूटशब्द फिर से सेट करें"; अंग्रेज़ी["कूटशब्द फिर से सेट करें"]="Reset password";
+        शब्दकोश["Use at least 12 characters. Resetting your password signs out all existing sessions."]="कम से कम १२ अक्षर दें। कूटशब्द बदलने पर सभी मौजूदा सत्र समाप्त हो जाएँगे।"; अंग्रेज़ी["कम से कम १२ अक्षर दें। कूटशब्द बदलने पर सभी मौजूदा सत्र समाप्त हो जाएँगे।"]="Use at least 12 characters. Resetting your password signs out all existing sessions.";
+        शब्दकोश["Password updated"]="कूटशब्द बदल गया"; अंग्रेज़ी["कूटशब्द बदल गया"]="Password updated";
+        शब्दकोश["Sign in with your new password. Your previous sessions have been signed out."]="नए कूटशब्द से प्रवेश करें। आपके पुराने सभी सत्र समाप्त हो गए हैं।"; अंग्रेज़ी["नए कूटशब्द से प्रवेश करें। आपके पुराने सभी सत्र समाप्त हो गए हैं।"]="Sign in with your new password. Your previous sessions have been signed out.";
+        शब्दकोश["Sign out before resetting a password."]="कूटशब्द फिर से सेट करने से पहले बाहर निकलें।"; अंग्रेज़ी["कूटशब्द फिर से सेट करने से पहले बाहर निकलें।"]="Sign out before resetting a password.";
+        शब्दकोश["Password recovery is temporarily unavailable."]="अभी कूटशब्द पुनर्प्राप्ति उपलब्ध नहीं है।"; अंग्रेज़ी["अभी कूटशब्द पुनर्प्राप्ति उपलब्ध नहीं है।"]="Password recovery is temporarily unavailable.";
+        शब्दकोश["Unexpected password reset field."]="कूटशब्द बदलने का अज्ञात क्षेत्र मिला।"; अंग्रेज़ी["कूटशब्द बदलने का अज्ञात क्षेत्र मिला।"]="Unexpected password reset field.";
+        शब्दकोश["Password reset link is invalid or expired. Request a new link."]="कूटशब्द बदलने का लिंक अमान्य है या समाप्त हो गया है। नया लिंक माँगें।"; अंग्रेज़ी["कूटशब्द बदलने का लिंक अमान्य है या समाप्त हो गया है। नया लिंक माँगें।"]="Password reset link is invalid or expired. Request a new link.";
+        शब्दकोश["Reset your Bhash CRM password"]="अपना भाष सीआरएम कूटशब्द बदलें"; अंग्रेज़ी["अपना भाष सीआरएम कूटशब्द बदलें"]="Reset your Bhash CRM password";
+        शब्दकोश["Open this link to reset your password. The link expires in 30 minutes and can be used once."]="कूटशब्द बदलने के लिए यह लिंक खोलें। लिंक ३० मिनट में समाप्त हो जाता है और केवल एक बार उपयोग हो सकता है।"; अंग्रेज़ी["कूटशब्द बदलने के लिए यह लिंक खोलें। लिंक ३० मिनट में समाप्त हो जाता है और केवल एक बार उपयोग हो सकता है।"]="Open this link to reset your password. The link expires in 30 minutes and can be used once.";
+        शब्दकोश["If you did not request a password reset, ignore this email. Your password has not changed."]="यदि आपने कूटशब्द बदलने का अनुरोध नहीं किया है, तो इस ईमेल को अनदेखा करें। आपका कूटशब्द नहीं बदला है।"; अंग्रेज़ी["यदि आपने कूटशब्द बदलने का अनुरोध नहीं किया है, तो इस ईमेल को अनदेखा करें। आपका कूटशब्द नहीं बदला है।"]="If you did not request a password reset, ignore this email. Your password has not changed.";
+        शब्दकोश["Too many requests. Try again later."]="बहुत अधिक अनुरोध हुए हैं। बाद में प्रयास करें।"; अंग्रेज़ी["बहुत अधिक अनुरोध हुए हैं। बाद में प्रयास करें।"]="Too many requests. Try again later.";
     }
     सार्वजनिक फलन पाठलो(कुंजी: पाठ) -> पाठ {
         यदि (भाषा=="hi" && शब्दकोश.है(कुंजी)) { लौटाओ शब्दकोश[कुंजी]; }

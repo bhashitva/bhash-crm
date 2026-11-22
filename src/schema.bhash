@@ -21,6 +21,10 @@
             "CREATE TABLE crm_signup_limits (key_hash TEXT PRIMARY KEY, started BIGINT NOT NULL, attempts BIGINT NOT NULL)",
             "CREATE TABLE crm_captcha_tokens (token_hash TEXT PRIMARY KEY, expires BIGINT NOT NULL)"
         }));
+        बदलाव.जोड़ो(नया माइग्रेशन(५,"Email password recovery",नया सूची<पाठ>{
+            "CREATE TABLE crm_password_resets (token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES platform_users(id), email TEXT NOT NULL, credential_stamp TEXT NOT NULL, language TEXT NOT NULL CHECK(language IN ('hi','en')), created BIGINT NOT NULL, expires BIGINT NOT NULL, sent BOOLEAN NOT NULL)",
+            "CREATE INDEX crm_password_resets_user ON crm_password_resets(user_id)"
+        }));
         स्थिर योजना: माइग्रेशनयोजना=नया माइग्रेशनयोजना(बदलाव); योजना.लागूकरो(ड);
     }
 }

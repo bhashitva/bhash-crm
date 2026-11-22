@@ -30,6 +30,8 @@
             मार्ग.जोड़ो("GET","/assets/source-copy.js",चालक);
             मार्ग.जोड़ो("GET","/source/:page",चालक);
             मार्ग.जोड़ो("GET","/source/:page/:part",चालक);
+            मार्ग.जोड़ो("GET","/forgot-password",चालक); मार्ग.जोड़ो("POST","/forgot-password",चालक);
+            मार्ग.जोड़ो("GET","/reset-password",चालक); मार्ग.जोड़ो("POST","/reset-password",चालक);
             मार्ग.जोड़ो("GET","/signup",चालक); मार्ग.जोड़ो("POST","/signup",चालक);
             मार्ग.जोड़ो("GET","/verify-email",चालक); मार्ग.जोड़ो("POST","/verify-email",चालक);
             मार्ग.जोड़ो("POST","/login",चालक); मार्ग.जोड़ो("POST","/logout",चालक); मार्ग.जोड़ो("POST","/tenants",चालक);

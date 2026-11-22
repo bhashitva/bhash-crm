@@ -45,6 +45,7 @@
     }
     निजी फलन प्रवेशपृष्ठ(स: सत्र) -> वेबउत्तर {
         स्थिर फ: दृश्य=दृश्य.फॉर्म("/login",स.सीएसआरएफ()).जोड़ो(भाषादृश्य.क्षेत्र("username","Username","text","")).जोड़ो(भाषादृश्य.क्षेत्र("password","Password","password","")).जोड़ो(भाषादृश्य.भेजो("Sign in"));
+        यदि (पंजी.मेलतैयार()) { फ.जोड़ो(दृश्य.खंड("p").जोड़ो(भाषादृश्य.कड़ी("/forgot-password","Forgot password?"))); }
         यदि (पंजी.तैयार()) { फ.जोड़ो(भाषादृश्य.कड़ी("/signup","Create an account")); }
         स्थिर उ: वेबउत्तर=भाषादृश्य.पृष्ठ(भाषादृश्य.पाठलो("Sign in"),दृश्य.खंड("main").गुण("class","narrow").जोड़ो(दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("p","Bhash · CRM").गुण("class","badge")).जोड़ो(यह.भाषाफॉर्म(स)).जोड़ो(भाषादृश्य.नोड("h1","Your customer workspace")).जोड़ो(भाषादृश्य.नोड("p","Sign in to manage your organizations, relationships and opportunities.")).जोड़ो(फ)),"signin");
         म.कुकीरखो(उ,स); लौटाओ उ;
@@ -187,6 +188,21 @@
         स्थिर उ: वेबउत्तर=भाषादृश्य.पृष्ठ(भाषादृश्य.पाठलो("Finish creating your account"),दृश्य.खंड("main").गुण("class","narrow").जोड़ो(दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("h1","Finish creating your account")).जोड़ो(दृश्य.शब्द("p",वि["email"])).जोड़ो(भाषादृश्य.नोड("p","Choose a password with at least 12 characters. Your account will have its own organization.")).जोड़ो(भाषादृश्य.नोड("p","Usernames may contain 3-64 Hindi or English characters, digits, spaces, dot, underscore or hyphen.")).जोड़ो(फ)),"verify");
         म.कुकीरखो(उ,स); लौटाओ उ;
     }
+    निजी फलन कूटअनुरोधपृष्ठ(स: सत्र) -> वेबउत्तर {
+        स्थिर फ: दृश्य=दृश्य.फॉर्म("/forgot-password",स.सीएसआरएफ()).जोड़ो(भाषादृश्य.क्षेत्र("email","Registered email address","email","").गुण("autocomplete","email").गुण("maxlength","254")).जोड़ो(भाषादृश्य.भेजो("Send password reset link"));
+        स्थिर उ: वेबउत्तर=भाषादृश्य.पृष्ठ(भाषादृश्य.पाठलो("Forgot password?"),दृश्य.खंड("main").गुण("class","narrow").जोड़ो(दृश्य.खंड("section").जोड़ो(यह.भाषाफॉर्म(स)).जोड़ो(भाषादृश्य.नोड("h1","Forgot password?")).जोड़ो(भाषादृश्य.नोड("p","Enter the email address registered with your account.")).जोड़ो(फ).जोड़ो(दृश्य.खंड("p").जोड़ो(भाषादृश्य.कड़ी("/","Sign in")))),"forgot"); म.कुकीरखो(उ,स); लौटाओ उ;
+    }
+    निजी फलन कूटसूचनापृष्ठ() -> वेबउत्तर {
+        लौटाओ भाषादृश्य.पृष्ठ(भाषादृश्य.पाठलो("Check your email"),दृश्य.खंड("main").गुण("class","narrow").जोड़ो(दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("h1","Check your email")).जोड़ो(भाषादृश्य.नोड("p","If an eligible account uses that email, a password reset link has been sent. Check your inbox and spam folder. The link expires in 30 minutes.")).जोड़ो(दृश्य.खंड("p").जोड़ो(भाषादृश्य.कड़ी("/forgot-password","Request another reset link"))).जोड़ो(दृश्य.खंड("p").जोड़ो(भाषादृश्य.कड़ी("/","Sign in")))),"forgot");
+    }
+    निजी फलन कूटबदलपृष्ठ(स: सत्र, टोकन: पाठ) -> वेबउत्तर {
+        स्थिर वि: मानचित्र<पाठ,पाठ> =पंजी.कूटविवरण(टोकन); भंडार.भाषाबदलो(स,वि["language"],असत्य);
+        स्थिर फ: दृश्य=दृश्य.फॉर्म("/reset-password",स.सीएसआरएफ()).जोड़ो(दृश्य.छिपा("token",टोकन)).जोड़ो(भाषादृश्य.क्षेत्र("password","New password","password","").गुण("autocomplete","new-password")).जोड़ो(भाषादृश्य.क्षेत्र("confirm_password","Confirm new password","password","").गुण("autocomplete","new-password")).जोड़ो(भाषादृश्य.भेजो("Reset password"));
+        स्थिर उ: वेबउत्तर=भाषादृश्य.पृष्ठ(भाषादृश्य.पाठलो("Reset password"),दृश्य.खंड("main").गुण("class","narrow").जोड़ो(दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("h1","Reset password")).जोड़ो(भाषादृश्य.नोड("p","Use at least 12 characters. Resetting your password signs out all existing sessions.")).जोड़ो(फ)),"reset"); म.कुकीरखो(उ,स); लौटाओ उ;
+    }
+    निजी फलन कूटसफलपृष्ठ() -> वेबउत्तर {
+        लौटाओ भाषादृश्य.पृष्ठ(भाषादृश्य.पाठलो("Password updated"),दृश्य.खंड("main").गुण("class","narrow").जोड़ो(दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("h1","Password updated")).जोड़ो(भाषादृश्य.नोड("p","Sign in with your new password. Your previous sessions have been signed out.")).जोड़ो(भाषादृश्य.कड़ी("/","Sign in"))),"reset");
+    }
     निजी फलन खातापृष्ठ(स: सत्र) -> वेबउत्तर {
         स्थिर विवरण: मानचित्र<पाठ,पाठ> =भंडार.खाताविवरण(स);
         मान ईमेल: पाठ=विवरण["email"]; यदि (ईमेल=="") { ईमेल=भाषादृश्य.पाठलो("No email address registered"); }
@@ -198,6 +214,25 @@
         यदि (अ.पथ=="/assets/platform.css") { लौटाओ दृश्य.शैली(); }
         यदि (अ.पथ=="/assets/source-copy.js") { लौटाओ स्रोतप्रकाश.कॉपीलिपि(); }
         मान स: सत्र=म.पाओ(अ);
+        यदि (अ.पथ=="/forgot-password" || अ.पथ=="/reset-password") {
+            यदि (स!=रिक्त && स.उपयोगकर्ता()!="") { फेंको नया वेबत्रुटि(४०९,"Sign out before resetting a password."); }
+            यदि (!पंजी.मेलतैयार()) { फेंको नया वेबत्रुटि(५०३,"Password recovery is temporarily unavailable."); }
+            यदि (स==रिक्त) { स=म.आरंभ("",नया सूची<पाठ>()); }
+            यदि (अ.पथ=="/forgot-password") {
+                यदि (अ.विधि=="GET") { लौटाओ यह.कूटअनुरोधपृष्ठ(स); }
+                स्थिर फ: मानचित्र<पाठ,पाठ> =फॉर्म.पढ़ो(अ);
+                प्रत्येक (फ.कुंजियाँ() में न: पाठ) { यदि (न!="_csrf" && न!="email") { फेंको नया वेबत्रुटि(४२२,"Unexpected password reset field."); } }
+                पंजी.कूटअनुरोध(स,फॉर्म.मानलो(फ,"email",२५४)); लौटाओ यह.कूटसूचनापृष्ठ();
+            }
+            यदि (अ.विधि=="GET") {
+                स्थिर ट: सूची<पाठ> =अ.प्रश्नमान("token"); यदि (ट.आकार!=१) { फेंको नया वेबत्रुटि(४२२,"Password reset link is invalid or expired. Request a new link."); }
+                लौटाओ यह.कूटबदलपृष्ठ(स,ट[०]);
+            }
+            स्थिर फ: मानचित्र<पाठ,पाठ> =फॉर्म.पढ़ो(अ);
+            प्रत्येक (फ.कुंजियाँ() में न: पाठ) { यदि (न!="_csrf" && न!="token" && न!="password" && न!="confirm_password") { फेंको नया वेबत्रुटि(४२२,"Unexpected password reset field."); } }
+            यदि (!फ.है("password") || !फ.है("confirm_password") || फ["password"]!=फ["confirm_password"]) { फेंको नया वेबत्रुटि(४२२,"Passwords must match."); }
+            पंजी.कूटपूरा(फॉर्म.मानलो(फ,"token",६४),फ["password"]); स्थिर उ: वेबउत्तर=यह.कूटसफलपृष्ठ(); म.समाप्त(अ,उ); लौटाओ उ;
+        }
         यदि (अ.पथ=="/signup" || अ.पथ=="/verify-email") {
             यदि (स!=रिक्त && स.उपयोगकर्ता()!="") { फेंको नया वेबत्रुटि(४०९,"Sign out before creating another account."); }
             यदि (!पंजी.तैयार()) { फेंको नया वेबत्रुटि(५०३,"Account registration is temporarily unavailable."); }
@@ -288,6 +323,9 @@
         यदि (अ.पथ!="/healthz" && अ.पथ!="/assets/platform.css" && अ.पथ!="/assets/source-copy.js") { भाषा=भंडार.भाषालो(म.पाओ(अ)); }
         यदि (अ.पथ=="/verify-email" && अ.विधि=="GET") {
             स्थिर ट: सूची<पाठ> =अ.प्रश्नमान("token"); यदि (ट.आकार==१) { प्रयास { स्थिर वि: मानचित्र<पाठ,पाठ> =पंजी.विवरण(ट[०]); भाषा=वि["language"]; } पकड़ो (द: वेबत्रुटि) { } }
+        }
+        यदि (अ.पथ=="/reset-password" && अ.विधि=="GET") {
+            स्थिर ट: सूची<पाठ> =अ.प्रश्नमान("token"); यदि (ट.आकार==१) { प्रयास { स्थिर वि: मानचित्र<पाठ,पाठ> =पंजी.कूटविवरण(ट[०]); भाषा=वि["language"]; } पकड़ो (द: वेबत्रुटि) { } }
         }
         लौटाओ नया सीआरएमपृष्ठ(भंडार,म,भाषा,अ.लक्ष्य,पंजी).संभालो(अ);
     }

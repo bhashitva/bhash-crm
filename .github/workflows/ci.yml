@@ -73,9 +73,11 @@ jobs:
           if [ "$TARGET" = clr ]; then
             python tests/verify.py --clr target/crm-clr --report target/verification.json
             python tests/verify_signup.py --clr target/crm-clr
+            python tests/verify_recovery.py --clr target/crm-clr
           else
             python tests/verify.py --jar target/crm.jar --report target/verification.json
             python tests/verify_signup.py --jar target/crm.jar
+            python tests/verify_recovery.py --jar target/crm.jar
           fi
       - uses: actions/upload-artifact@v4
         if: always()

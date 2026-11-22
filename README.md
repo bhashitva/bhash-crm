@@ -14,6 +14,9 @@ Deployment hostname: **https://bhashcrm.bhashitva.org**.
 - Companies, contacts, opportunities, tasks, notes and related records.
 - Search, pagination, archive/restore, exact money in minor units and an audit trail.
 - Persistent database sessions, CSRF protection, login limits and password changes.
+- **कूटशब्द भूल गए? / Forgot password?** sends a single-use, 30-minute reset
+  link to the account's verified registered email address. Resetting signs out
+  all existing sessions; users sign in again with the new password.
 - Optional public signup with Turnstile and Resend email verification. Email
   ownership is verified before choosing credentials. Each verified signup creates
   a separate organization with its new user as owner.
@@ -127,6 +130,7 @@ clipboard bridge regression test). Neither is needed by the deployed JVM app.
 ```sh
 python tests/verify.py --jar target/crm.jar --report target/verification.json
 python tests/verify_signup.py --jar target/crm.jar
+python tests/verify_recovery.py --jar target/crm.jar
 python tests/verify_setup.py
 python tests/verify_terminal.py
 java -jar target/bhash-compiler-0.28.0.jar deps verify packages/web-platform/tests
@@ -142,7 +146,7 @@ Use `./build.ps1 -Target clr` and `python tests/verify.py --clr target/crm-clr` 
 DB and `BHASH_CRM_TEST_POSTGRES=true` (optional `psycopg` test client).
 
 The synchronous reference app has explicit safety bounds and has not been
-load-tested for a promised user count. MFA/SSO, emailed recovery/invitations,
+load-tested for a promised user count. MFA/SSO, emailed invitations,
 attachments, durable jobs, streaming exports and PostgreSQL RLS are follow-ups.
 See [VALIDATION.md](VALIDATION.md) for actual verification evidence.
 

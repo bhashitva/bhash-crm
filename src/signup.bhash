@@ -38,9 +38,9 @@
             पंजीकरण.तालालो(ड);
             संसाधन (क: डेटाकथन=ड.तैयार("DELETE FROM crm_signup_limits WHERE started<=?")) { क.पूर्णांकरखो(१,अब-८६४०००००); क.चलाओ(); }
             मान मिला: तार्किक=असत्य;
-            संसाधन (क: डेटाकथन=ड.तैयार("SELECT started,attempts FROM crm_signup_limits WHERE key_hash=?")) { क.पाठरखो(१,ह); यदि (क.अगला()) { मिला=सत्य; यदि (क.पूर्णांकलो(०)>अब || (क.पूर्णांकलो(०)>अब-अवधि && क.पूर्णांकलो(१)>=सीमा)) { फेंको नया वेबत्रुटि(४२९,"Too many signup attempts. Try again later."); } } }
+            संसाधन (क: डेटाकथन=ड.तैयार("SELECT started,attempts FROM crm_signup_limits WHERE key_hash=?")) { क.पाठरखो(१,ह); यदि (क.अगला()) { मिला=सत्य; यदि (क.पूर्णांकलो(०)>अब || (क.पूर्णांकलो(०)>अब-अवधि && क.पूर्णांकलो(१)>=सीमा)) { फेंको नया वेबत्रुटि(४२९,"Too many requests. Try again later."); } } }
             यदि (!मिला) {
-                संसाधन (क: डेटाकथन=ड.तैयार("SELECT COUNT(*) FROM crm_signup_limits")) { क.अगला(); यदि (क.पूर्णांकलो(०)>=१००००) { फेंको नया वेबत्रुटि(४२९,"Too many signup attempts. Try again later."); } }
+                संसाधन (क: डेटाकथन=ड.तैयार("SELECT COUNT(*) FROM crm_signup_limits")) { क.अगला(); यदि (क.पूर्णांकलो(०)>=१००००) { फेंको नया वेबत्रुटि(४२९,"Too many requests. Try again later."); } }
                 संसाधन (क: डेटाकथन=ड.तैयार("INSERT INTO crm_signup_limits(key_hash,started,attempts) VALUES (?,?,0)")) { क.पाठरखो(१,ह); क.पूर्णांकरखो(२,अब); क.चलाओ(); }
             }
             संसाधन (क: डेटाकथन=ड.तैयार("UPDATE crm_signup_limits SET attempts=CASE WHEN started<=? THEN 1 ELSE attempts+1 END, started=CASE WHEN started<=? THEN ? ELSE started END WHERE key_hash=?")) { क.पूर्णांकरखो(१,अब-अवधि); क.पूर्णांकरखो(२,अब-अवधि); क.पूर्णांकरखो(३,अब); क.पाठरखो(४,ह); क.चलाओ(); } ल.सहेजो();
@@ -112,4 +112,66 @@
             संसाधन (क: डेटाकथन=ड.तैयार("DELETE FROM crm_email_verifications WHERE email=?")) { क.पाठरखो(१,वि["email"]); क.चलाओ(); } ल.सहेजो();
         } } लौटाओ पहचान;
     }
+    सार्वजनिक फलन मेलतैयार() -> तार्किक { लौटाओ मेलकुंजी!="" && भेजनेवाला!=""; }
+    सार्वजनिक फलन कूटअनुरोध(स: सत्र, ईमेल: पाठ) -> शून्य {
+        यदि (!यह.मेलतैयार()) { फेंको नया वेबत्रुटि(५०३,"Password recovery is temporarily unavailable."); }
+        स्थिर ई: पाठ=पंजीकरण.ईमेलजाँचो(ईमेल);
+        यह.सीमा("reset-session:"+स.पहचान(),५,३६०००००); यह.सीमा("reset-email:"+ई,३,३६०००००);
+        मान उ: पाठ=""; मान चिह्न: पाठ=""; मान भाषा: पाठ="hi";
+        संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) { संसाधन (क: डेटाकथन=ड.तैयार("SELECT id,password_hash,ui_language FROM platform_users WHERE email=? AND active=TRUE AND email_verified=TRUE")) {
+            क.पाठरखो(१,ई); यदि (क.अगला()) { उ=क.पाठलो(०); चिह्न=डेटाचेकसम.शा२५६(क.पाठलो(१)); भाषा=क.पाठलो(२); }
+        } }
+        यदि (उ=="") { लौटाओ; }
+        // Provider-budget exhaustion must not disclose whether an email is registered.
+        प्रयास { यह.सीमा("mail-budget",८०,८६४०००००); } पकड़ो (द: वेबत्रुटि) { लौटाओ; }
+        स्थिर ट: पाठ=सुरक्षा.टोकन(); स्थिर ह: पाठ=डेटाचेकसम.शा२५६(ट); स्थिर अब: पूर्णांक=समय.अभी();
+        संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) { संसाधन (ल: डेटालेनदेन=ड.लेनदेन()) {
+            पंजीकरण.तालालो(ड);
+            संसाधन (क: डेटाकथन=ड.तैयार("DELETE FROM crm_password_resets WHERE expires<=?")) { क.पूर्णांकरखो(१,अब); क.चलाओ(); }
+            संसाधन (क: डेटाकथन=ड.तैयार("INSERT INTO crm_password_resets(token_hash,user_id,email,credential_stamp,language,created,expires,sent) VALUES (?,?,?,?,?,?,?,FALSE)")) {
+                क.पाठरखो(१,ह); क.पाठरखो(२,उ); क.पाठरखो(३,ई); क.पाठरखो(४,चिह्न); क.पाठरखो(५,भाषा); क.पूर्णांकरखो(६,अब); क.पूर्णांकरखो(७,अब+१८०००००); क.चलाओ();
+            } ल.सहेजो();
+        } }
+        प्रयास {
+            स्थिर अन: अनुवाद=नया अनुवाद(भाषा); स्थिर शरीर: मानचित्र<पाठ,सर्ववस्तु> =नया मानचित्र<पाठ,सर्ववस्तु>();
+            शरीर["from"]=भेजनेवाला; शरीर["to"]=नया सूची<पाठ>{ई}; शरीर["subject"]=अन.पाठलो("Reset your Bhash CRM password");
+            शरीर["text"]=अन.पाठलो("Open this link to reset your password. The link expires in 30 minutes and can be used once.")+"\n\n"+मूल+"/reset-password?token="+ट+"\n\n"+अन.पाठलो("If you did not request a password reset, ignore this email. Your password has not changed.");
+            स्थिर अ: एचटीटीपीअनुरोध=नया एचटीटीपीअनुरोध("POST",मेलपता); अ.समयसीमा=३५००; अ.अनुसरणसीमा=०; अ.पाठरखो(जेसन.पाठबनाओ(शरीर)); अ.शीर्षरखो("Content-Type","application/json"); अ.शीर्षरखो("Authorization","Bearer "+मेलकुंजी); अ.शीर्षरखो("Idempotency-Key","crm-reset-"+ह);
+            स्थिर उत्तर: एचटीटीपीउत्तर=एचटीटीपी.भेजो(अ); यदि (उत्तर.स्थिति()<२०० || उत्तर.स्थिति()>=३०० || उत्तर.सामग्री().आकार>८१९२) { फेंको नया अपवाद("Unavailable"); }
+            स्थिर ज: मानचित्र<पाठ,सर्ववस्तु> =परिवर्तित<मानचित्र<पाठ,सर्ववस्तु>>(जेसन.पढ़ो(उत्तर.पाठ्यांश())); यदि (!ज.है("id") || परिवर्तित<पाठ>(ज["id"])=="") { फेंको नया अपवाद("Unavailable"); }
+        } पकड़ो (द: अपवाद) {
+            संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) { संसाधन (क: डेटाकथन=ड.तैयार("DELETE FROM crm_password_resets WHERE token_hash=?")) { क.पाठरखो(१,ह); क.चलाओ(); } }
+            लौटाओ;
+        }
+        संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) { संसाधन (क: डेटाकथन=ड.तैयार("UPDATE crm_password_resets SET sent=TRUE WHERE token_hash=?")) { क.पाठरखो(१,ह); क.चलाओ(); } }
+    }
+    सार्वजनिक फलन कूटविवरण(टोकन: पाठ) -> मानचित्र<पाठ,पाठ> {
+        यदि (पाठ्य.लंबाई(टोकन)!=६४) { फेंको नया वेबत्रुटि(४२२,"Password reset link is invalid or expired. Request a new link."); }
+        मान क: पूर्णांक=०; जबतक (क<६४) { यदि (!पाठ्य.है("0123456789abcdef",पाठ्य.अंश(टोकन,क,क+१))) { फेंको नया वेबत्रुटि(४२२,"Password reset link is invalid or expired. Request a new link."); } क=क+१; }
+        संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) { संसाधन (कथन: डेटाकथन=ड.तैयार("SELECT r.user_id,r.language,r.credential_stamp,u.password_hash FROM crm_password_resets r JOIN platform_users u ON u.id=r.user_id WHERE r.token_hash=? AND r.sent=TRUE AND r.created<=? AND r.expires>? AND u.active=TRUE AND u.email_verified=TRUE AND u.email=r.email")) {
+            कथन.पाठरखो(१,डेटाचेकसम.शा२५६(टोकन)); कथन.पूर्णांकरखो(२,समय.अभी()); कथन.पूर्णांकरखो(३,समय.अभी());
+            यदि (कथन.अगला() && कथन.पाठलो(२)==डेटाचेकसम.शा२५६(कथन.पाठलो(३))) {
+                स्थिर फल: मानचित्र<पाठ,पाठ> =नया मानचित्र<पाठ,पाठ>(); फल["user"]=कथन.पाठलो(०); फल["language"]=कथन.पाठलो(१); लौटाओ फल;
+            }
+        } }
+        फेंको नया वेबत्रुटि(४२२,"Password reset link is invalid or expired. Request a new link.");
+    }
+    सार्वजनिक फलन कूटपूरा(टोकन: पाठ, पास: पाठ) -> शून्य {
+        यदि (!यह.मेलतैयार()) { फेंको नया वेबत्रुटि(५०३,"Password recovery is temporarily unavailable."); }
+        यह.कूटविवरण(टोकन); यह.सीमा("reset-complete:"+टोकन,८,६०००००);
+        सीआरएमभंडार.कूटजाँचो(पास); स्थिर नवीनहैश: पाठ=कूटशब्द.हैशबनाओ(पास);
+        संसाधन (ड: डेटासंबंध=स्रोत.खोलो()) { संसाधन (ल: डेटालेनदेन=ड.लेनदेन()) {
+            पंजीकरण.तालालो(ड); मान उ: पाठ=""; मान पुराना: पाठ=""; मान ई: पाठ="";
+            संसाधन (क: डेटाकथन=ड.तैयार("SELECT r.user_id,r.credential_stamp,u.password_hash,r.email FROM crm_password_resets r JOIN platform_users u ON u.id=r.user_id WHERE r.token_hash=? AND r.sent=TRUE AND r.created<=? AND r.expires>? AND u.active=TRUE AND u.email_verified=TRUE AND u.email=r.email")) {
+                क.पाठरखो(१,डेटाचेकसम.शा२५६(टोकन)); क.पूर्णांकरखो(२,समय.अभी()); क.पूर्णांकरखो(३,समय.अभी());
+                यदि (क.अगला() && क.पाठलो(१)==डेटाचेकसम.शा२५६(क.पाठलो(२))) { उ=क.पाठलो(०); पुराना=क.पाठलो(२); ई=क.पाठलो(३); }
+            }
+            यदि (उ=="") { फेंको नया वेबत्रुटि(४२२,"Password reset link is invalid or expired. Request a new link."); }
+            संसाधन (क: डेटाकथन=ड.तैयार("UPDATE platform_users SET password_hash=? WHERE id=? AND password_hash=? AND active=TRUE AND email_verified=TRUE AND email=?")) { क.पाठरखो(१,नवीनहैश); क.पाठरखो(२,उ); क.पाठरखो(३,पुराना); क.पाठरखो(४,ई); यदि (क.चलाओ()!=१) { फेंको नया वेबत्रुटि(४२२,"Password reset link is invalid or expired. Request a new link."); } }
+            संसाधन (क: डेटाकथन=ड.तैयार("DELETE FROM crm_password_resets WHERE user_id=?")) { क.पाठरखो(१,उ); क.चलाओ(); }
+            संसाधन (क: डेटाकथन=ड.तैयार("DELETE FROM platform_sessions WHERE user_id=?")) { क.पाठरखो(१,उ); क.चलाओ(); }
+            ल.सहेजो();
+        } }
+    }
+
 }

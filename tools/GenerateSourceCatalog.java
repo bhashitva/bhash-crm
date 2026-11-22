@@ -53,6 +53,10 @@ class GenerateSourceCatalog {
         methods("ui:account",web,"खातापृष्ठ");
         methods("ui:signup",web,"पंजीकरणपृष्ठ","पंजीकरणसूचना");
         methods("ui:verify",web,"ईमेलपुष्टिपृष्ठ");
+        methods("ui:forgot",web,"कूटअनुरोधपृष्ठ","कूटसूचनापृष्ठ");
+        methods("ui:reset",web,"कूटबदलपृष्ठ","कूटसफलपृष्ठ");
+        methods("backend:forgot","src/signup.bhash","कूटअनुरोध","सीमा","ईमेलजाँचो");
+        methods("backend:reset","src/signup.bhash","कूटविवरण","कूटपूरा");
         methods("backend:signup","src/signup.bhash","अनुरोध","कैप्चाजाँचो","सीमा","ईमेलजाँचो");
         methods("backend:verify","src/signup.bhash","पूरा","विवरण");
         methods("ui:layout",web,"शीर्षक","पथ","क्षेत्र","चुनो","भाषाफॉर्म","ढाँचा");

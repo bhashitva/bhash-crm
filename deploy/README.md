@@ -116,7 +116,19 @@ completion attempts per link/10 minutes, and 80 email attempts per rolling day
 across all workers. Other applications sharing the Resend free account also use
 its allowance; provider failures reject signup without creating an account.
 There is no background retry queue: users can request a fresh link after a
-temporary failure. Password recovery and invitations are separate future work.
+temporary failure. Emailed invitations are separate future work.
+
+**कूटशब्द भूल गए? / Forgot password?** uses the existing Resend configuration
+independently of the public-signup flag. Only active accounts with a verified
+registered email can receive reset links. The public confirmation stays generic
+for unknown/unverified addresses, exhausted mail budgets and delivery failures.
+Recovery requests allow five attempts per session/hour and three per email/hour;
+signup and recovery share the 80-attempt rolling daily mail budget. Reset links
+expire after 30 minutes, are stored as hashes, and are consumed atomically.
+Opening a link does not consume it; changing a password invalidates outstanding
+links. A successful reset revokes all of that user's sessions without signing
+them in automatically. Email and reset screens use the account's saved language.
+Legacy accounts without registered email continue to sign in normally.
 
 `tests/verify_signup.py` uses explicit loopback provider doubles and sends no
 real mail. Its `--signup-test-api` transport is rejected outside local mode;
