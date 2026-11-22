@@ -16,6 +16,8 @@
         अनुवाद.भाग८(शब्दकोश,अंग्रेज़ी);
         अनुवाद.भाग९(शब्दकोश,अंग्रेज़ी);
         अनुवाद.भाग१०(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग12(शब्दकोश,अंग्रेज़ी);
+        अनुवाद.भाग11(शब्दकोश,अंग्रेज़ी);
     }
     निजी साझा फलन भाग१(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
         शब्दकोश["Account"]="खाता"; अंग्रेज़ी["खाता"]="Account";
@@ -217,6 +219,37 @@
         शब्दकोश["Request handlers"]="अनुरोध हैंडलर"; अंग्रेज़ी["अनुरोध हैंडलर"]="Request handlers";
         शब्दकोश["Record validation"]="रिकॉर्ड सत्यापन"; अंग्रेज़ी["रिकॉर्ड सत्यापन"]="Record validation";
         शब्दकोश["Read the Bhash source used by this running app. Opening or closing this panel keeps your page and unsaved entries in place."]="इस चल रहे ऐप का भाष स्रोत पढ़ें। इस पैनल को खोलने या बंद करने पर आपका पृष्ठ और बिना सहेजी प्रविष्टियाँ बनी रहती हैं।"; अंग्रेज़ी["इस चल रहे ऐप का भाष स्रोत पढ़ें। इस पैनल को खोलने या बंद करने पर आपका पृष्ठ और बिना सहेजी प्रविष्टियाँ बनी रहती हैं।"]="Read the Bhash source used by this running app. Opening or closing this panel keeps your page and unsaved entries in place.";
+    }
+    निजी साझा फलन भाग11(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Create an account"]="खाता बनाएँ"; अंग्रेज़ी["खाता बनाएँ"]="Create an account";
+        शब्दकोश["Send verification email"]="सत्यापन ईमेल भेजें"; अंग्रेज़ी["सत्यापन ईमेल भेजें"]="Send verification email";
+        शब्दकोश["Check your email"]="अपना ईमेल देखें"; अंग्रेज़ी["अपना ईमेल देखें"]="Check your email";
+        शब्दकोश["Pass the bot check and verify your email. Then choose your username and password."]="बॉट जाँच पूरी करके अपना ईमेल सत्यापित करें। फिर उपयोगकर्ता नाम और कूटशब्द चुनें।"; अंग्रेज़ी["बॉट जाँच पूरी करके अपना ईमेल सत्यापित करें। फिर उपयोगकर्ता नाम और कूटशब्द चुनें।"]="Pass the bot check and verify your email. Then choose your username and password.";
+        शब्दकोश["If this email can be used, a verification link has been sent. Check your inbox and spam folder. Links expire in 30 minutes."]="यदि यह ईमेल उपयोग किया जा सकता है, तो सत्यापन लिंक भेज दिया गया है। इनबॉक्स और स्पैम फ़ोल्डर देखें। लिंक ३० मिनट में समाप्त हो जाता है।"; अंग्रेज़ी["यदि यह ईमेल उपयोग किया जा सकता है, तो सत्यापन लिंक भेज दिया गया है। इनबॉक्स और स्पैम फ़ोल्डर देखें। लिंक ३० मिनट में समाप्त हो जाता है।"]="If this email can be used, a verification link has been sent. Check your inbox and spam folder. Links expire in 30 minutes.";
+        शब्दकोश["Send another verification email"]="सत्यापन ईमेल फिर भेजें"; अंग्रेज़ी["सत्यापन ईमेल फिर भेजें"]="Send another verification email";
+        शब्दकोश["Finish creating your account"]="अपना खाता बनाना पूरा करें"; अंग्रेज़ी["अपना खाता बनाना पूरा करें"]="Finish creating your account";
+        शब्दकोश["Confirm password"]="कूटशब्द की पुष्टि करें"; अंग्रेज़ी["कूटशब्द की पुष्टि करें"]="Confirm password";
+        शब्दकोश["Create verified account"]="सत्यापित खाता बनाएँ"; अंग्रेज़ी["सत्यापित खाता बनाएँ"]="Create verified account";
+        शब्दकोश["Choose a password with at least 12 characters. Your account will have its own organization."]="कम से कम १२ अक्षरों का कूटशब्द चुनें। आपके खाते का अपना संगठन होगा।"; अंग्रेज़ी["कम से कम १२ अक्षरों का कूटशब्द चुनें। आपके खाते का अपना संगठन होगा।"]="Choose a password with at least 12 characters. Your account will have its own organization.";
+        शब्दकोश["Enter a valid email address."]="मान्य ईमेल पता दें।"; अंग्रेज़ी["मान्य ईमेल पता दें।"]="Enter a valid email address.";
+        शब्दकोश["Account registration is temporarily unavailable."]="अभी नया खाता बनाना उपलब्ध नहीं है।"; अंग्रेज़ी["अभी नया खाता बनाना उपलब्ध नहीं है।"]="Account registration is temporarily unavailable.";
+        शब्दकोश["Complete the bot check and try again."]="बॉट जाँच पूरी करके फिर प्रयास करें।"; अंग्रेज़ी["बॉट जाँच पूरी करके फिर प्रयास करें।"]="Complete the bot check and try again.";
+        शब्दकोश["Bot verification is unavailable. Try again later."]="अभी बॉट सत्यापन उपलब्ध नहीं है। बाद में प्रयास करें।"; अंग्रेज़ी["अभी बॉट सत्यापन उपलब्ध नहीं है। बाद में प्रयास करें।"]="Bot verification is unavailable. Try again later.";
+        शब्दकोश["Too many signup attempts. Try again later."]="खाता बनाने के बहुत अधिक प्रयास हुए हैं। बाद में प्रयास करें।"; अंग्रेज़ी["खाता बनाने के बहुत अधिक प्रयास हुए हैं। बाद में प्रयास करें।"]="Too many signup attempts. Try again later.";
+    }
+    निजी साझा फलन भाग12(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Verification email could not be sent. Try again later."]="सत्यापन ईमेल नहीं भेजा जा सका। बाद में प्रयास करें।"; अंग्रेज़ी["सत्यापन ईमेल नहीं भेजा जा सका। बाद में प्रयास करें।"]="Verification email could not be sent. Try again later.";
+        शब्दकोश["Verification link is invalid or expired. Request a new email."]="सत्यापन लिंक अमान्य है या समाप्त हो गया है। नया ईमेल माँगें।"; अंग्रेज़ी["सत्यापन लिंक अमान्य है या समाप्त हो गया है। नया ईमेल माँगें।"]="Verification link is invalid or expired. Request a new email.";
+        शब्दकोश["Enter an organization name."]="संगठन का नाम दें।"; अंग्रेज़ी["संगठन का नाम दें।"]="Enter an organization name.";
+        शब्दकोश["Username or email is already registered. Sign in or choose another username."]="उपयोगकर्ता नाम या ईमेल पहले से पंजीकृत है। प्रवेश करें या दूसरा उपयोगकर्ता नाम चुनें।"; अंग्रेज़ी["उपयोगकर्ता नाम या ईमेल पहले से पंजीकृत है। प्रवेश करें या दूसरा उपयोगकर्ता नाम चुनें।"]="Username or email is already registered. Sign in or choose another username.";
+        शब्दकोश["Account capacity reached."]="खातों की क्षमता पूरी हो गई है।"; अंग्रेज़ी["खातों की क्षमता पूरी हो गई है।"]="Account capacity reached.";
+        शब्दकोश["Organization capacity reached."]="संगठनों की क्षमता पूरी हो गई है।"; अंग्रेज़ी["संगठनों की क्षमता पूरी हो गई है।"]="Organization capacity reached.";
+        शब्दकोश["Sign out before creating another account."]="दूसरा खाता बनाने से पहले बाहर निकलें।"; अंग्रेज़ी["दूसरा खाता बनाने से पहले बाहर निकलें।"]="Sign out before creating another account.";
+        शब्दकोश["Unexpected signup field."]="खाता बनाने का अज्ञात क्षेत्र मिला।"; अंग्रेज़ी["खाता बनाने का अज्ञात क्षेत्र मिला।"]="Unexpected signup field.";
+        शब्दकोश["Passwords must match."]="दोनों कूटशब्द एक जैसे होने चाहिए।"; अंग्रेज़ी["दोनों कूटशब्द एक जैसे होने चाहिए।"]="Passwords must match.";
+        शब्दकोश["Verify your Bhash CRM email"]="अपना भाष सीआरएम ईमेल सत्यापित करें"; अंग्रेज़ी["अपना भाष सीआरएम ईमेल सत्यापित करें"]="Verify your Bhash CRM email";
+        शब्दकोश["Open this link to verify your email and finish creating your account. The link expires in 30 minutes."]="ईमेल सत्यापित करके खाता बनाना पूरा करने के लिए यह लिंक खोलें। लिंक ३० मिनट में समाप्त हो जाता है।"; अंग्रेज़ी["ईमेल सत्यापित करके खाता बनाना पूरा करने के लिए यह लिंक खोलें। लिंक ३० मिनट में समाप्त हो जाता है।"]="Open this link to verify your email and finish creating your account. The link expires in 30 minutes.";
+        शब्दकोश["If you did not request this email, you can ignore it."]="यदि आपने यह ईमेल नहीं माँगा था, तो इसे अनदेखा कर सकते हैं।"; अंग्रेज़ी["यदि आपने यह ईमेल नहीं माँगा था, तो इसे अनदेखा कर सकते हैं।"]="If you did not request this email, you can ignore it.";
     }
     सार्वजनिक फलन पाठलो(कुंजी: पाठ) -> पाठ {
         यदि (भाषा=="hi" && शब्दकोश.है(कुंजी)) { लौटाओ शब्दकोश[कुंजी]; }

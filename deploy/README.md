@@ -71,7 +71,7 @@ explicitly configured reachable upstream.
 For the existing Docker Caddy gateway on this VPS, start the CRM with both files:
 
 ```sh
-docker compose -f deploy/compose.yaml -f deploy/compose.gateway.yaml up -d --build
+docker compose --env-file .env -f deploy/compose.yaml -f deploy/compose.gateway.yaml up -d --build
 ```
 
 The override joins the external `bhash-playground_public` network with the unique
@@ -87,6 +87,40 @@ checkout and `/var/lib/bhash-crm` for its private database. Adapt the included
 [systemd service](bhash-crm.service). Install the service, reload systemd and
 enable/start it only after account provisioning and proxy configuration have
 been reviewed on the target host.
+
+## Public signup and email verification
+
+Signup stays disabled unless `CRM_SIGNUP_ENABLED=true` and all provider keys are
+present. Store these values privately in `/opt/bhash-crm/.env` (mode 600), never
+in Git or shell history:
+
+- `CRM_TURNSTILE_SITE_KEY`: the public key of the Managed widget, restricted to
+  `bhashcrm.bhashitva.org`. Pre-clearance is unnecessary.
+- `CRM_TURNSTILE_SECRET_KEY`: that widget's private validation key.
+- `CRM_RESEND_API_KEY`: sending-only, restricted to the verified `bhashitva.org` domain.
+- `CRM_MAIL_FROM=info@bhashitva.org` and `CRM_SIGNUP_HOST=bhashcrm.bhashitva.org`.
+
+Add only the records shown by Resend's domain dashboard; retain existing Titan
+MX/SPF/DKIM and verification records. Receiving and click/open tracking are not
+needed. Keep the fixed public HTTPS origin consistent with emailed links.
+Apply settings using `docker compose --env-file .env` with both deployment files.
+
+Users open **खाता बनाएँ / Create an account**, submit their email after the bot
+check, then follow a single-use, 30-minute link to choose their username,
+password and organization. Opening a link alone does not consume it. Verification
+emails use the selected Hindi/English language; it becomes the new user's saved
+preference. Existing accounts and tenant data are preserved.
+
+Signup allows five requests per session/hour, three per email/hour, eight
+completion attempts per link/10 minutes, and 80 email attempts per rolling day
+across all workers. Other applications sharing the Resend free account also use
+its allowance; provider failures reject signup without creating an account.
+There is no background retry queue: users can request a fresh link after a
+temporary failure. Password recovery and invitations are separate future work.
+
+`tests/verify_signup.py` uses explicit loopback provider doubles and sends no
+real mail. Its `--signup-test-api` transport is rejected outside local mode;
+production always uses Cloudflare and Resend HTTPS endpoints.
 
 ## Backups and upgrades
 

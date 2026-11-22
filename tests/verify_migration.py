@@ -28,6 +28,9 @@ with tempfile.TemporaryDirectory(prefix="crm-migration-", dir=root / "target") a
         assert connection.execute("SELECT password_hash,ui_language FROM platform_users").fetchone() == (previous_hash, "hi")
         assert connection.execute("SELECT name,notes FROM crm_records").fetchone() == ("पुरानी कंपनी", "Preserve customer data")
         assert connection.execute("SELECT COUNT(*) FROM platform_members").fetchone()[0] == 1
+        assert connection.execute("SELECT email,email_verified FROM platform_users").fetchone() == (None, 0)
+        for table in ('crm_email_verifications', 'crm_signup_limits', 'crm_captcha_tokens'):
+            assert connection.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0] == 0
     server = helpers.Server(command, database)
     try:
         client = helpers.Client(server)
@@ -36,4 +39,4 @@ with tempfile.TemporaryDirectory(prefix="crm-migration-", dir=root / "target") a
         assert headers["Content-Language"] == "hi" and "पुरानी कंपनी" in text
     finally:
         server.stop()
-print("PASS: schema-v2 accounts, password hashes, memberships and customer data survive the language migration")
+print("PASS: schema-v2 accounts, password hashes, memberships and customer data survive language and signup migrations")

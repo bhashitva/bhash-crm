@@ -71,6 +71,6 @@
             उ=दृश्य.पृष्ठ("Request could not be completed",दृश्य.खंड("main").जोड़ो(दृश्य.शब्द("h1","Request could not be completed")).जोड़ो(दृश्य.शब्द("p","Status "+वेब.अंक(द.स्थिति))).जोड़ो(दृश्य.शब्द("p",द.संदेश)).जोड़ो(दृश्य.शब्द("p","Refresh the original page before trying again.")).जोड़ो(दृश्य.कड़ी("/","Return to CRM"))); उ.स्थिति=द.स्थिति;
             }
         }
-        उ.शीर्षरखो("Cache-Control","no-store"); उ.शीर्षरखो("X-Content-Type-Options","nosniff"); उ.शीर्षरखो("Referrer-Policy","same-origin"); लौटाओ उ;
+        उ.शीर्षरखो("Cache-Control","no-store"); उ.शीर्षरखो("X-Content-Type-Options","nosniff"); उ.शीर्षरखो("Referrer-Policy","strict-origin"); लौटाओ उ;
     }
 }

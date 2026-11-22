@@ -119,7 +119,9 @@ class Client:
             assert response.headers["Cache-Control"] == "no-store"
             frame_policy = "self" if path.startswith("/source/") else "none"
             assert f"frame-ancestors '{frame_policy}'" in response.headers["Content-Security-Policy"]
-            if not path.startswith("/source/"):
+            if path == "/signup" and data is None and raw is None:
+                assert '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js"' in text
+            elif not path.startswith("/source/"):
                 assert "<script" not in text.lower(), "CRM pages must work with scripts disabled"
             token = Inputs(text).values.get("_csrf")
             if token:

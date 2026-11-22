@@ -72,8 +72,10 @@ jobs:
           set -euo pipefail
           if [ "$TARGET" = clr ]; then
             python tests/verify.py --clr target/crm-clr --report target/verification.json
+            python tests/verify_signup.py --clr target/crm-clr
           else
             python tests/verify.py --jar target/crm.jar --report target/verification.json
+            python tests/verify_signup.py --jar target/crm.jar
           fi
       - uses: actions/upload-artifact@v4
         if: always()

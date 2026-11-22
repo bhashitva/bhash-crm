@@ -11,6 +11,10 @@
     निजी मान बच्चे: सूची<दृश्य>;
     निजी मान गुणसूची: मानचित्र<पाठ,पाठ>;
     निजी निर्माता(नाम: पाठ, सामग्री: पाठ) { यह.नाम=नाम; यह.सामग्री=सामग्री; बच्चे=नया सूची<दृश्य>(); गुणसूची=नया मानचित्र<पाठ,पाठ>(); }
+    सार्वजनिक साझा फलन टर्नस्टाइललिपि() -> दृश्य {
+        स्थिर लिपि: दृश्य=नया दृश्य("script",""); लिपि.गुणसूची["src"]="https://challenges.cloudflare.com/turnstile/v0/api.js";
+        लौटाओ लिपि.गुण("defer","defer");
+    }
     सार्वजनिक साझा फलन बाह्यलिपि(पथ: पाठ) -> दृश्य {
         दृश्य.सुरक्षितपथ(पथ); लौटाओ नया दृश्य("script","").गुण("src",पथ).गुण("defer","defer");
     }
@@ -24,7 +28,7 @@
         प्रत्येक (पाठ्य.यूटीएफ८(मानक) में ब: बाइट) { यदि (परिवर्तित<पूर्णांक>(ब)<३३ || परिवर्तित<पूर्णांक>(ब)==१२७) { फेंको नया अपवाद("अमान्य अनुप्रयोग पथ।"); } }
     }
     सार्वजनिक फलन गुण(नाम: पाठ, मानक: पाठ) -> दृश्य {
-        यदि (यह.नाम=="" || !पाठ्य.है("|class|id|name|type|value|method|action|href|rel|lang|charset|content|placeholder|required|maxlength|min|max|step|selected|disabled|aria-label|role|autocomplete|open|tabindex|src|title|loading|sandbox|allow|defer|aria-live|data-line|data-copy-code|data-copy-ready|data-copy-done|data-copy-error|", "|"+नाम+"|")) { फेंको नया अपवाद("असमर्थित दृश्य गुण।"); }
+        यदि (यह.नाम=="" || !पाठ्य.है("|class|id|name|type|value|method|action|href|rel|lang|charset|content|placeholder|required|maxlength|min|max|step|selected|disabled|aria-label|role|autocomplete|open|tabindex|src|title|loading|sandbox|allow|defer|aria-live|data-line|data-copy-code|data-copy-ready|data-copy-done|data-copy-error|data-sitekey|data-action|data-cdata|data-language|", "|"+नाम+"|")) { फेंको नया अपवाद("असमर्थित दृश्य गुण।"); }
         यदि (नाम=="href" || नाम=="action" || नाम=="src") { दृश्य.सुरक्षितपथ(मानक); }
         यदि (नाम=="method" && मानक!="post" && मानक!="get") { फेंको नया अपवाद("अमान्य फॉर्म विधि।"); }
         गुणसूची[नाम]=मानक; लौटाओ यह;

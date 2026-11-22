@@ -51,6 +51,10 @@ class GenerateSourceCatalog {
         methods("ui:members",web,"सदस्यपृष्ठ");
         methods("ui:audit",web,"लेखापृष्ठ","पृष्ठअंतर");
         methods("ui:account",web,"खातापृष्ठ");
+        methods("ui:signup",web,"पंजीकरणपृष्ठ","पंजीकरणसूचना");
+        methods("ui:verify",web,"ईमेलपुष्टिपृष्ठ");
+        methods("backend:signup","src/signup.bhash","अनुरोध","कैप्चाजाँचो","सीमा","ईमेलजाँचो");
+        methods("backend:verify","src/signup.bhash","पूरा","विवरण");
         methods("ui:layout",web,"शीर्षक","पथ","क्षेत्र","चुनो","भाषाफॉर्म","ढाँचा");
         methods("backend:signin",db,"खातानाम","प्रवेश");
         methods("backend:organizations",db,"संगठनसूची","नयासंगठन","संगठनबनाओ");
@@ -64,7 +68,7 @@ class GenerateSourceCatalog {
         methods("backend:routing",web,"संभालो");
         // Explicit public-source allowlist. Never scan runtime files or configuration.
         for(String file:List.of("src/main.bhash","src/errors.bhash","src/schema.bhash",
-                "src/translations.bhash","src/source_viewer.bhash",
+                "src/translations.bhash","src/source_viewer.bhash","src/signup.bhash",
                 "packages/web-platform/src/source.bhash","packages/web-platform/src/ui.bhash","packages/web-platform/src/forms.bhash",
                 "packages/web-platform/src/sessions.bhash","packages/web-platform/src/tenancy.bhash"))
             entries.put("file:"+file,read(file));

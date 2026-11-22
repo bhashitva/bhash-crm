@@ -16,6 +16,12 @@ services:
       - --origin=${CRM_ORIGIN:-https://bhashcrm.bhashitva.org}
     environment:
       CRM_PUBLIC_HOST: ${CRM_PUBLIC_HOST:-bhashcrm.bhashitva.org}
+      CRM_SIGNUP_ENABLED: ${CRM_SIGNUP_ENABLED:-false}
+      CRM_TURNSTILE_SITE_KEY: ${CRM_TURNSTILE_SITE_KEY:-}
+      CRM_TURNSTILE_SECRET_KEY: ${CRM_TURNSTILE_SECRET_KEY:-}
+      CRM_RESEND_API_KEY: ${CRM_RESEND_API_KEY:-}
+      CRM_MAIL_FROM: ${CRM_MAIL_FROM:-info@bhashitva.org}
+      CRM_SIGNUP_HOST: ${CRM_PUBLIC_HOST:-bhashcrm.bhashitva.org}
       LANG: C.UTF-8
     volumes:
       - crm_data:/data
