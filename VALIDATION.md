@@ -5,8 +5,8 @@ verified against compiler.lock.json. No compiler source checkout is required.
 
 | Check | Result |
 | --- | --- |
-| JVM + SQLite HTTP integration suite | Passed, 19 scenario groups including source viewer |
-| .NET CLR + SQLite HTTP integration suite | Passed, 19 scenario groups including source viewer |
+| JVM + SQLite HTTP integration suite | Passed, 20 scenario groups including source highlighting and copy controls |
+| .NET CLR + SQLite HTTP integration suite | Passed, 20 scenario groups including source highlighting and copy controls |
 | Bhash UI/form/local-origin policy tests | Passed |
 | Schema-v2 to schema-v3 account/data migration | Passed |
 | Java launcher/password boundary checks | Passed |
@@ -69,3 +69,19 @@ build-time Bhash source; it reads no runtime files through the source routes.
 All four updated CI jobs pass for commit `6717676` (Ubuntu JVM, Windows JVM,
 Ubuntu CLR, and the production container):
 https://github.com/bhashitva/bhash-crm/actions/runs/44954809698
+
+All four jobs also pass for highlighting/copy commit `4786c7d`:
+https://github.com/bhashitva/bhash-crm/actions/runs/44967799934
+The renderer tests cover keywords, types, literals, function names, Devanagari
+numbers, escaped strings, multiline comments, line numbering, and inert HTML.
+HTTP tests reconstruct highlighted files exactly, including indentation and
+trailing newlines. The generated clipboard bridge is tested with the exact
+Unicode payload, success/reset behavior, denied access and manual selection.
+Browser checks confirm colors, gutters, nested-file controls and localized copy
+feedback. Clipboard writes are user-initiated; the bridge never reads it.
+
+Runtime `4786c7d` is live. HTTPS checks pass for every source mapping in Hindi
+and English, numbered/highlighted shared files, exact reconstructed source text,
+localized copy controls and the generated bridge's regression scenarios. The
+container is healthy; its original data volume, SQLite integrity and foreign
+keys are verified. Existing playground and Kanboard sites return HTTP 200.
