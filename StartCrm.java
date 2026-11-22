@@ -38,6 +38,25 @@ class StartCrm {
             return "Password must use at most 1024 UTF-8 bytes. Please try again.";
         return null;
     }
+    static String usernameValue(String input) {
+        String value = input.strip().toLowerCase(Locale.ROOT);
+        String[] composed = {"ऩ","ऱ","ऴ","क़","ख़","ग़","ज़","ड़","ढ़","फ़","य़"};
+        String[] decomposed = {"ऩ","ऱ","ऴ","क़","ख़","ग़","ज़","ड़","ढ़","फ़","य़"};
+        for (int i = 0; i < composed.length; i++) value = value.replace(composed[i], decomposed[i]);
+        value = value.replace("्‍", "्").replace("्‌", "्").replaceAll(" +", " ");
+        int length = value.codePointCount(0, value.length());
+        if (length < 3 || length > 64) return null;
+        String letters = "अआइईउऊऋऌऍऎएऐऑऒओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलळवशषसहऄॐॠॡ";
+        String marks = "ऀँंः़ऺऻािीुूृॄॅॆेैॉॊोौ्ॎॏॕॖॗॢॣ";
+        boolean base = false;
+        for (int cp : value.codePoints().toArray()) {
+            if (letters.indexOf(cp) >= 0) base = true;
+            else if (marks.indexOf(cp) >= 0 && base) { }
+            else if ("abcdefghijklmnopqrstuvwxyz0123456789०१२३४५६७८९._- ".indexOf(cp) >= 0) base = false;
+            else return null;
+        }
+        return value;
+    }
     public static void main(String[] args) throws Exception {
         configureTerminal();
         Path jar = Path.of("target", "crm.jar").toAbsolutePath();
@@ -80,11 +99,11 @@ class StartCrm {
             if (console == null) throw new IllegalStateException("Run this launcher directly in your terminal so it can hide the password.");
             String username;
             do {
-                username = console.readLine("First owner username (3-64 Latin letters, digits, . _ -): ");
+                username = console.readLine("First owner username (3-64 Hindi/English characters, digits, spaces, . _ -): ");
                 if (username == null) throw new IllegalStateException("Setup cancelled.");
-                username = username.strip().toLowerCase(Locale.ROOT);
-                if (username.matches("[a-z0-9._-]{3,64}")) break;
-                console.printf("Use 3-64 Latin letters, digits, dot, underscore or hyphen.%n");
+                username = usernameValue(username);
+                if (username != null) break;
+                console.printf("Use 3-64 Hindi/English characters, digits, spaces, dot, underscore or hyphen.%n");
             } while (true);
             String tenant;
             do {

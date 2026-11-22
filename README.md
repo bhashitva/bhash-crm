@@ -17,6 +17,9 @@ Deployment hostname: **https://bhashcrm.bhashitva.org**.
 - Optional public signup with Turnstile and Resend email verification. Email
   ownership is verified before choosing credentials. Each verified signup creates
   a separate organization with its new user as owner.
+- Usernames support 3–64 Hindi/English characters, Devanagari/Latin digits,
+  spaces, dot, underscore and hyphen. Hindi vowel marks and conjuncts work in
+  signup and sign-in; equivalent nukta/shaping forms share the same account.
 - Hindi/English labels, navigation, forms, statuses and expected error pages.
 - A language switch on the sign-in screen and every authenticated page.
 - **खाता → भाषा की पसंद** / **Account → Language preference** saves the user's

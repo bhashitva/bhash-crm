@@ -141,26 +141,32 @@ def verify(command, artifact):
             assert headers['Referrer-Policy'] == 'strict-origin' and '<script' not in page
             finisher.request(path)
             assert db('SELECT COUNT(*) FROM platform_users')[0][0] == 1
-            values = dict(token=raw_token, username='new-owner', password=password,
+            values = dict(token=raw_token, username='फ़ैज़ श्रीवास्तव १२', password=password,
                           confirm_password=password, organization='नई संस्था')
             finisher.post('/verify-email', {**values, 'confirm_password': 'different'}, status=422)
             finisher.post('/verify-email', {**values, 'tenant_id': existing_tenant}, status=422)
             finisher.post('/verify-email', {**values, 'password': 'short', 'confirm_password': 'short'}, status=422)
+            for invalid_name in ('िमनोज', 'मनोज\u200b', '<मनोज>'):
+                finisher.post('/verify-email', {**values, 'username': invalid_name}, status=422)
             old_csrf = finisher.csrf
             finisher.post('/verify-email', values)
             page, _ = finisher.request('/')
             assert finisher.csrf != old_csrf
-            assert db('SELECT email,email_verified,ui_language FROM platform_users WHERE username=?', ('new-owner',)) == [
+            assert db('SELECT email,email_verified,ui_language FROM platform_users WHERE username=?', ('फ़ैज़ श्रीवास्तव १२',)) == [
                 ('new.owner@example.org', 1, 'hi')]
-            new_tenant = db('SELECT tenant_id FROM platform_members m JOIN platform_users u ON m.user_id=u.id WHERE u.username=?', ('new-owner',))[0][0]
+            new_tenant = db('SELECT tenant_id FROM platform_members m JOIN platform_users u ON m.user_id=u.id WHERE u.username=?', ('फ़ैज़ श्रीवास्तव १२',))[0][0]
+            assert db('SELECT name FROM platform_tenants WHERE id=?', (new_tenant,)) == [('नई संस्था',)]
             assert new_tenant != existing_tenant
             assert db('SELECT role FROM platform_members WHERE tenant_id=?', (new_tenant,)) == [('owner',)]
             assert not db('SELECT * FROM crm_email_verifications')
             finisher.request(f'/t/{existing_tenant}/contacts', status=404)
             fresh = Client(server)
             fresh.request(path, status=422)
-            fresh.login('new-owner', password, language=None)
+            fresh.login('फ़ैज़  श्रीवास्तव १२', password, language=None)
             fresh.request(f'/t/{new_tenant}/contacts')
+            shaped = Client(server)
+            shaped.login('फ़ैज़ श्\u200dरीवास्तव १२', password, language=None)
+            shaped.request(f'/t/{new_tenant}/contacts')
             old = Client(server)
             old.login('legacy-owner', password)
             assert db('SELECT password_hash,email,email_verified FROM platform_users WHERE username=?', ('legacy-owner',)) == [(old_hash, None, 0)]
@@ -190,8 +196,9 @@ def verify(command, artifact):
             racers = [Client(server), Client(server)]
             for racer in racers:
                 racer.request(race_path)
-            race_values = dict(token=race_path.split('=')[1], username='race-owner', password=password,
+            race_values = dict(token=race_path.split('=')[1], username='क' * 64, password=password,
                                confirm_password=password, organization='Race organization')
+            racers[0].post('/verify-email', {**race_values, 'username': 'क' * 65}, status=422)
             def finish(racer):
                 try:
                     racer.post('/verify-email', race_values)
@@ -203,6 +210,8 @@ def verify(command, artifact):
                 assert sorted(pool.map(finish, racers)) == ['consumed', 'created']
             assert db('SELECT COUNT(*) FROM platform_users WHERE email=?', ('race@example.org',)) == [(1,)]
             assert db('SELECT COUNT(*) FROM platform_tenants WHERE name=?', ('Race organization',)) == [(1,)]
+            long_name = Client(server)
+            long_name.login('क' * 64, password, language=None)
 
             # Durable per-email quota cannot be reset with a different cookie or server restart.
             for _ in range(3):
@@ -223,7 +232,7 @@ def verify(command, artifact):
             rejected = subprocess.run([*command, f'--db={database}', '--origin=https://bhashcrm.bhashitva.org', '--port=0'],
                                       capture_output=True, timeout=30)
             assert rejected.returncode != 0 and b'READY ' not in rejected.stdout
-            print('PASS: CAPTCHA binding/replay, verified signup, atomic tenancy, existing accounts, expiry, fail-closed providers, persistent quotas and secret-free logs')
+            print('PASS: Hindi full names, nukta equivalence, 64-character bounds, Hindi organizations, CAPTCHA binding/replay, verified signup, atomic tenancy, existing accounts, expiry, fail-closed providers, persistent quotas and secret-free logs')
     except Exception:
         for running in servers:
             print('Signup server diagnostics:', ascii('\n'.join(running.logs[-12:])))

@@ -161,8 +161,9 @@
         शब्दकोश["The current password is incorrect."]="वर्तमान कूटशब्द गलत है।"; अंग्रेज़ी["वर्तमान कूटशब्द गलत है।"]="The current password is incorrect.";
         शब्दकोश["The account changed. Please sign in again."]="खाता बदल गया; फिर प्रवेश करें।"; अंग्रेज़ी["खाता बदल गया; फिर प्रवेश करें।"]="The account changed. Please sign in again.";
         शब्दकोश["Use at least 12 characters and at most 1024 UTF-8 bytes for the password."]="कूटशब्द कम से कम १२ अक्षर और अधिकतम १०२४ UTF-8 बाइट चाहिए।"; अंग्रेज़ी["कूटशब्द कम से कम १२ अक्षर और अधिकतम १०२४ UTF-8 बाइट चाहिए।"]="Use at least 12 characters and at most 1024 UTF-8 bytes for the password.";
+        शब्दकोश["Usernames may contain 3-64 Hindi or English characters, digits, spaces, dot, underscore or hyphen."]="उपयोगकर्ता नाम में ३–६४ हिन्दी या English अक्षर, अंक, रिक्त स्थान, बिंदु, अंडरस्कोर या हाइफ़न दे सकते हैं।";
         शब्दकोश["Usernames must contain 3-64 characters."]="खाता ३–६४ अक्षर चाहिए।"; अंग्रेज़ी["खाता ३–६४ अक्षर चाहिए।"]="Usernames must contain 3-64 characters.";
-        शब्दकोश["Use lowercase Latin letters, digits, dot, underscore or hyphen in usernames."]="खाते में छोटे Latin अक्षर, अंक, . _ - दें।"; अंग्रेज़ी["खाते में छोटे Latin अक्षर, अंक, . _ - दें।"]="Use lowercase Latin letters, digits, dot, underscore or hyphen in usernames.";
+        शब्दकोश["Use Hindi or English letters, digits, spaces, dot, underscore or hyphen in usernames."]="खाते में हिन्दी या English अक्षर, अंक, रिक्त स्थान, . _ - दें।"; अंग्रेज़ी["खाते में हिन्दी या English अक्षर, अंक, रिक्त स्थान, . _ - दें।"]="Use Hindi or English letters, digits, spaces, dot, underscore or hyphen in usernames.";
         शब्दकोश["Invalid CRM record type."]="अमान्य CRM प्रकार।"; अंग्रेज़ी["अमान्य CRM प्रकार।"]="Invalid CRM record type.";
         शब्दकोश["Field is too large."]="क्षेत्र बहुत बड़ा।"; अंग्रेज़ी["क्षेत्र बहुत बड़ा।"]="Field is too large.";
         शब्दकोश["Duplicate pagination field."]="दोहरा पृष्ठ।"; अंग्रेज़ी["दोहरा पृष्ठ।"]="Duplicate pagination field.";
