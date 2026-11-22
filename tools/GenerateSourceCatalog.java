@@ -63,7 +63,7 @@ class GenerateSourceCatalog {
         methods("backend:record",db,"पाओ","पंक्तिलो","सहेजो","संग्रहकरो");
         methods("backend:members",db,"सदस्यसूची","सदस्यबदलो","खातानाम","खाताबनाओ","कूटजाँचो","उपयोगकर्तालो");
         methods("backend:audit",db,"लेखासूची");
-        methods("backend:account",db,"डिफ़ॉल्टभाषालो","भाषाबदलो","सत्रभाषारखो","कूटबदलो","जीवितखाता","भाषाजाँचो");
+        methods("backend:account",db,"खाताविवरण","डिफ़ॉल्टभाषालो","भाषाबदलो","सत्रभाषारखो","कूटबदलो","जीवितखाता","भाषाजाँचो");
         methods("backend:validation",web,"रिकॉर्डलो","वैकल्पिक");
         methods("backend:routing",web,"संभालो");
         // Explicit public-source allowlist. Never scan runtime files or configuration.

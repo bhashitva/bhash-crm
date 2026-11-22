@@ -26,6 +26,9 @@ Deployment hostname: **https://bhashcrm.bhashitva.org**.
   default language in the database. It applies at subsequent sign-ins.
 - Current-session language switches do not silently overwrite the saved default.
   Customer-entered content is never translated. Language state is request-scoped.
+- The signed-in username appears at the top right of authenticated pages and
+  links to Account. Account details show that user's registered email address;
+  older accounts without an email display a localized empty-state message.
 - **भाष स्रोत देखें / View Bhash source** opens a closable side panel on every
   screen, including sign-in and error pages. Frontend and backend sections show
   the current page's Bhash functions and expandable shared code. Native controls

@@ -38,7 +38,9 @@
             यदि (भंडार.संदर्भ(स,त).भूमिका=="owner") { नव.जोड़ो(भाषादृश्य.कड़ी(यह.पथ(त,"members"),"Members")).जोड़ो(भाषादृश्य.कड़ी(यह.पथ(त,"audit"),"Audit")); }
         }
         नव.जोड़ो(भाषादृश्य.कड़ी("/account","Account"));
-        स्थिर शीर्ष: दृश्य=दृश्य.खंड("header").जोड़ो(भाषादृश्य.नोड("strong","Bhash · CRM")).जोड़ो(नव).जोड़ो(यह.भाषाफॉर्म(स)).जोड़ो(दृश्य.फॉर्म("/logout",स.सीएसआरएफ()).जोड़ो(भाषादृश्य.भेजो("Sign out")));
+        स्थिर विवरण: मानचित्र<पाठ,पाठ> =भंडार.खाताविवरण(स);
+        स्थिर पहचान: दृश्य=दृश्य.खंड("div").गुण("class","header-identity").जोड़ो(भाषादृश्य.नोड("span","Signed in as")).जोड़ो(दृश्य.खंड("a").गुण("href","/account").गुण("class","current-username").जोड़ो(दृश्य.अक्षर(विवरण["username"])));
+        स्थिर शीर्ष: दृश्य=दृश्य.खंड("header").जोड़ो(दृश्य.खंड("div").गुण("class","header-top").जोड़ो(भाषादृश्य.नोड("strong","Bhash · CRM")).जोड़ो(पहचान)).जोड़ो(दृश्य.खंड("div").गुण("class","header-controls").जोड़ो(नव).जोड़ो(यह.भाषाफॉर्म(स)).जोड़ो(दृश्य.फॉर्म("/logout",स.सीएसआरएफ()).जोड़ो(भाषादृश्य.भेजो("Sign out"))));
         लौटाओ भाषादृश्य.पृष्ठ(शीर्षक,दृश्य.खंड("div").जोड़ो(शीर्ष).जोड़ो(दृश्य.खंड("main").जोड़ो(दृश्य.शब्द("h1",शीर्षक)).जोड़ो(मुख्य)),स्रोतकुंजी);
     }
     निजी फलन प्रवेशपृष्ठ(स: सत्र) -> वेबउत्तर {
@@ -186,7 +188,10 @@
         म.कुकीरखो(उ,स); लौटाओ उ;
     }
     निजी फलन खातापृष्ठ(स: सत्र) -> वेबउत्तर {
-            लौटाओ यह.ढाँचा(स,"",भाषादृश्य.पाठलो("Your account"),दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("h2","Language preference")).जोड़ो(भाषादृश्य.नोड("p","Choose your default language. It is used whenever you sign in.")).जोड़ो(दृश्य.फॉर्म("/account/preferences",स.सीएसआरएफ()).जोड़ो(यह.चुनो("language","Default language",भंडार.डिफ़ॉल्टभाषालो(स),नया सूची<पाठ>{"hi","en"})).जोड़ो(भाषादृश्य.भेजो("Save language preference"))).जोड़ो(भाषादृश्य.नोड("h2","Change password")).जोड़ो(भाषादृश्य.नोड("p","Use at least 12 characters. Changing your password signs out all your sessions, including this one.")).जोड़ो(दृश्य.फॉर्म("/account/password",स.सीएसआरएफ()).जोड़ो(भाषादृश्य.क्षेत्र("current_password","Current password","password","")).जोड़ो(भाषादृश्य.क्षेत्र("new_password","New password","password","")).जोड़ो(भाषादृश्य.क्षेत्र("confirm_password","Confirm new password","password","")).जोड़ो(भाषादृश्य.भेजो("Change password and sign out"))),"account");
+        स्थिर विवरण: मानचित्र<पाठ,पाठ> =भंडार.खाताविवरण(स);
+        मान ईमेल: पाठ=विवरण["email"]; यदि (ईमेल=="") { ईमेल=भाषादृश्य.पाठलो("No email address registered"); }
+        स्थिर खाता: दृश्य=दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("h2","Account details")).जोड़ो(भाषादृश्य.नोड("strong","Username")).जोड़ो(दृश्य.शब्द("p",विवरण["username"]).गुण("class","account-username")).जोड़ो(भाषादृश्य.नोड("strong","Email")).जोड़ो(दृश्य.शब्द("p",ईमेल).गुण("class","account-email"));
+            लौटाओ यह.ढाँचा(स,"",भाषादृश्य.पाठलो("Your account"),दृश्य.खंड("div").जोड़ो(खाता).जोड़ो(दृश्य.खंड("section").जोड़ो(भाषादृश्य.नोड("h2","Language preference")).जोड़ो(भाषादृश्य.नोड("p","Choose your default language. It is used whenever you sign in.")).जोड़ो(दृश्य.फॉर्म("/account/preferences",स.सीएसआरएफ()).जोड़ो(यह.चुनो("language","Default language",भंडार.डिफ़ॉल्टभाषालो(स),नया सूची<पाठ>{"hi","en"})).जोड़ो(भाषादृश्य.भेजो("Save language preference"))).जोड़ो(भाषादृश्य.नोड("h2","Change password")).जोड़ो(भाषादृश्य.नोड("p","Use at least 12 characters. Changing your password signs out all your sessions, including this one.")).जोड़ो(दृश्य.फॉर्म("/account/password",स.सीएसआरएफ()).जोड़ो(भाषादृश्य.क्षेत्र("current_password","Current password","password","")).जोड़ो(भाषादृश्य.क्षेत्र("new_password","New password","password","")).जोड़ो(भाषादृश्य.क्षेत्र("confirm_password","Confirm new password","password","")).जोड़ो(भाषादृश्य.भेजो("Change password and sign out")))),"account");
     }
     सार्वजनिक फलन संभालो(अ: वेबअनुरोध) -> वेबउत्तर {
         यदि (अ.पथ=="/healthz") { लौटाओ वेब.पाठउत्तर(२००,"ok"); }

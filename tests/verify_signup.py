@@ -13,7 +13,7 @@ import subprocess
 import tempfile
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from verify import Server, Client, Inputs
+from verify import Server, Client, Inputs, account_identity
 from source_checks import SourcePanel, SourceDocument
 
 
@@ -152,6 +152,10 @@ def verify(command, artifact):
             finisher.post('/verify-email', values)
             page, _ = finisher.request('/')
             assert finisher.csrf != old_csrf
+            assert account_identity(page) == {'current-username': 'फ़ैज़ श्रीवास्तव १२'}
+            account, _ = finisher.request('/account')
+            assert account_identity(account) == {'current-username': 'फ़ैज़ श्रीवास्तव १२', 'account-username': 'फ़ैज़ श्रीवास्तव १२', 'account-email': 'new.owner@example.org'}
+            assert 'खाते का विवरण' in account
             assert db('SELECT email,email_verified,ui_language FROM platform_users WHERE username=?', ('फ़ैज़ श्रीवास्तव १२',)) == [
                 ('new.owner@example.org', 1, 'hi')]
             new_tenant = db('SELECT tenant_id FROM platform_members m JOIN platform_users u ON m.user_id=u.id WHERE u.username=?', ('फ़ैज़ श्रीवास्तव १२',))[0][0]
@@ -169,6 +173,9 @@ def verify(command, artifact):
             shaped.request(f'/t/{new_tenant}/contacts')
             old = Client(server)
             old.login('legacy-owner', password)
+            legacy_account, _ = old.request('/account')
+            assert account_identity(legacy_account)['account-email'] == 'No email address registered'
+            assert 'new.owner@example.org' not in legacy_account
             assert db('SELECT password_hash,email,email_verified FROM platform_users WHERE username=?', ('legacy-owner',)) == [(old_hash, None, 0)]
 
             duplicate = visitor()

@@ -48,6 +48,28 @@ class Inputs(html.parser.HTMLParser):
             self.links.append(attrs.get("href", ""))
 
 
+def account_identity(text):
+    class Identity(html.parser.HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.values, self.field, self.tag = {}, None, None
+        def handle_starttag(self, tag, attrs):
+            field = dict(attrs).get('class')
+            if field in ('current-username', 'account-username', 'account-email'):
+                assert field not in self.values
+                self.field, self.tag = field, tag
+                self.values[field] = ''
+        def handle_data(self, data):
+            if self.field:
+                self.values[self.field] += data
+        def handle_endtag(self, tag):
+            if tag == self.tag:
+                self.field = self.tag = None
+    parser = Identity()
+    parser.feed(text)
+    return parser.values
+
+
 class Server:
     def __init__(self, command, database, *, provider="sqlite", origin=None, port=0):
         self.events = queue.Queue()
@@ -197,6 +219,8 @@ def verify(command, artifact: Path, provider: str, runtime: str, report: Path | 
                                     capture_output=True, text=True, encoding="utf-8", timeout=40)
             assert result.returncode == 0, result.stderr
         connection = connect_database(database, provider)
+        connection.execute("UPDATE platform_users SET email=?,email_verified=TRUE WHERE username=?", ('alice@example.org', 'alice'))
+        connection.commit()
         tenants = dict(connection.execute("SELECT name,id FROM platform_tenants"))
         alpha, beta = tenants["Alpha"], tenants["Beta"]
         try:
@@ -206,6 +230,14 @@ def verify(command, artifact: Path, provider: str, runtime: str, report: Path | 
             alice.login("alice", password)
             bob.login("bob", password)
             checks.append("bootstrap and authenticated Bhash pages")
+            for client, name, email in ((alice, 'alice', 'alice@example.org'), (bob, 'bob', 'No email address registered')):
+                home, _ = client.request('/')
+                assert account_identity(home) == {'current-username': name}
+                account, _ = client.request('/account')
+                assert account_identity(account) == {'current-username': name, 'account-username': name, 'account-email': email}
+                if name == 'bob':
+                    assert 'alice@example.org' not in account
+            checks.append("current user in header and private account email, including legacy accounts without email")
 
             localhost_origin = first.origin.replace("127.0.0.1", "localhost")
             localhost = Client(first, origin=localhost_origin)
