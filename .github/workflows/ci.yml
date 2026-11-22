@@ -53,7 +53,7 @@ jobs:
           java -jar "$compiler" deps verify packages/web-platform/tests
           java -jar "$compiler" compile packages/web-platform/tests -o target/platform-tests.jar
           java -jar target/platform-tests.jar
-          javac -d target/launcher-tests StartCrm.java tests/LauncherChecks.java
+          javac -encoding UTF-8 -d target/launcher-tests StartCrm.java tests/LauncherChecks.java
           java -cp target/launcher-tests LauncherChecks
           python tests/verify_terminal.py
           python tests/verify_setup.py
