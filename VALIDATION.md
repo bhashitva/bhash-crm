@@ -123,3 +123,20 @@ drawer opened highlighted signup code and closed without navigation. No real
 account was created during this check: the recipient can complete the emailed
 link and choose credentials privately. Account creation and link consumption
 are covered by the disposable-database integration tests.
+
+Hindi-name runtime `e080b2e` is live. All four checks pass:
+https://github.com/bhashitva/bhash-crm/actions/runs/44973922315
+Signup and sign-in now accept Hindi full names with spaces, Devanagari digits,
+vowel marks and conjuncts. Tests register a Hindi username exceeding 64 UTF-8
+bytes, preserve its Hindi organization, sign in using canonical nukta and
+conjunct-shaping variants, accept a 64-character Hindi username, and reject
+65-character names, leading marks, stray invisible characters and markup.
+Legacy Latin accounts still authenticate. Windows launcher checks cover the
+same names with both UTF-8 and Windows-1252 Java source encodings.
+
+The candidate passed a private live-database copy check, preserving existing
+accounts, password hashes, email verification state, organizations, memberships,
+CRM records and pending email links without a schema change. A verified online
+backup precedes deployment. Post-rollout HTTPS checks confirm the new validator
+and registration guidance in the running source snapshot, original credentials,
+database integrity, and the unaffected playground and Kanboard services.

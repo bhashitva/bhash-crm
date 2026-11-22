@@ -144,7 +144,7 @@ Returning to an older schema version requires restoring its compatible backup.
 
 Deployed on November 21, 2026 at https://bhashcrm.bhashitva.org on the existing
 `play.bhashitva.org` VPS, with its checkout in `/opt/bhash-crm`.
-The current signup runtime runs from commit `42a5c62`, including the source
+The current signup runtime runs from commit `e080b2e`, including Hindi usernames and the source
 highlighting, line-number and copy enhancement.
 An online database backup and an isolated container check preceded rollout.
 The container is
@@ -175,3 +175,9 @@ do not override it with `no-referrer`, which suppresses the form Origin header
 in browsers. The policy sends no verification URL path or token as a referrer.
 The private online backup before migration is
 `/opt/bhash-crm/backups/before-signup-20261122T013935Z.db`.
+
+The Hindi-name update required no schema migration. It supports Hindi/English
+usernames with spaces, marks and conjuncts, normalizes equivalent nukta and
+shaping forms, and allows the full 64-character limit through UTF-8 form fields.
+The verified online backup before that update is
+`/opt/bhash-crm/backups/before-hindi-names-20261122T015912Z.db`.
