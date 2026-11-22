@@ -24,7 +24,8 @@ class SourcePanel(HTMLParser):
                 self.depth += 1
             assert tag not in ("a", "form", "input", "script"), "Source controls must not navigate or submit"
             if tag == "iframe":
-                assert attrs.get("loading") == "lazy" and attrs.get("sandbox") == "allow-same-origin"
+                assert attrs.get("loading") == "lazy" and set(attrs.get("sandbox", "").split()) == {"allow-same-origin", "allow-scripts"}
+                assert attrs.get("allow") == "clipboard-write 'self'"
                 assert attrs.get("title")
                 self.frames.append(attrs["src"])
             if tag == "pre":
@@ -60,19 +61,37 @@ class SourceDocument(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.codes = []
         self.code = False
+        self.lines = []
+        self.tokens = set()
+        self.copy_buttons = 0
+        self.scripts = []
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        assert tag not in ("form", "input", "script", "a"), "Source must be inert escaped text"
+        assert tag not in ("form", "input", "a"), "Source must be inert escaped text"
+        if tag == "script":
+            assert not self.code and attrs.get("src") == "/assets/source-copy.js" and "defer" in attrs
+            self.scripts.append(attrs["src"])
+        if tag == "button":
+            assert attrs.get("type") == "button" and attrs.get("data-copy-code") == "true"
+            assert attrs.get("data-copy-ready") and attrs.get("data-copy-done") and attrs.get("data-copy-error")
+            self.copy_buttons += 1
         if tag == "iframe":
-            assert attrs.get("loading") == "lazy" and attrs.get("sandbox") == "allow-same-origin"
+            assert attrs.get("loading") == "lazy" and set(attrs.get("sandbox", "").split()) == {"allow-same-origin", "allow-scripts"}
+            assert attrs.get("allow") == "clipboard-write 'self'"
             assert attrs.get("src", "").startswith("/source/") and attrs.get("title")
         if tag == "pre":
             assert attrs.get("tabindex") == "0"
         if tag == "code":
             self.code = True
             self.codes.append("")
+            self.lines.append([])
+        if self.code and tag == "span":
+            if "data-line" in attrs:
+                self.lines[-1].append(int(attrs["data-line"]))
+            if attrs.get("class", "").startswith("tok-"):
+                self.tokens.add(attrs["class"])
 
     def handle_endtag(self, tag):
         if tag == "code":
@@ -85,4 +104,9 @@ class SourceDocument(HTMLParser):
     def check(self):
         assert len(self.codes) >= 1
         assert all("फलन " in c or "वर्ग " in c for c in self.codes)
+        assert self.copy_buttons == len(self.codes)
+        assert self.scripts == ["/assets/source-copy.js"]
+        for code, numbers in zip(self.codes, self.lines):
+            assert numbers == list(range(1, len(code.splitlines()) + 1)), "Line numbers must match original source lines"
+        assert {"tok-keyword", "tok-string"}.issubset(self.tokens)
         return self

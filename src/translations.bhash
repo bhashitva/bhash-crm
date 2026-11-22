@@ -200,6 +200,10 @@
         शब्दकोश["Bhash · CRM"]="भाष · सीआरएम"; अंग्रेज़ी["भाष · सीआरएम"]="Bhash · CRM";
     }
     निजी साझा फलन भाग१०(शब्दकोश: मानचित्र<पाठ,पाठ>, अंग्रेज़ी: मानचित्र<पाठ,पाठ>) -> शून्य {
+        शब्दकोश["Copy code"]="कोड कॉपी करें"; अंग्रेज़ी["कोड कॉपी करें"]="Copy code";
+        शब्दकोश["Copied"]="कॉपी हो गया"; अंग्रेज़ी["कॉपी हो गया"]="Copied";
+        शब्दकोश["Copy unavailable. Code selected; press Ctrl+C or Command+C."]="कॉपी उपलब्ध नहीं। कोड चुना गया है; Ctrl+C या Command+C दबाएँ।"; अंग्रेज़ी["कॉपी उपलब्ध नहीं। कोड चुना गया है; Ctrl+C या Command+C दबाएँ।"]="Copy unavailable. Code selected; press Ctrl+C or Command+C.";
+
         शब्दकोश["Page not found."]="पृष्ठ उपलब्ध नहीं है।"; अंग्रेज़ी["पृष्ठ उपलब्ध नहीं है।"]="Page not found.";
         शब्दकोश["Method not allowed."]="यह अनुरोध विधि अनुमत नहीं है।"; अंग्रेज़ी["यह अनुरोध विधि अनुमत नहीं है।"]="Method not allowed.";
         शब्दकोश["Source page unavailable."]="स्रोत पृष्ठ उपलब्ध नहीं।"; अंग्रेज़ी["स्रोत पृष्ठ उपलब्ध नहीं।"]="Source page unavailable.";

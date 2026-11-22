@@ -15,6 +15,7 @@ verified against compiler.lock.json. No compiler source checkout is required.
 | Source dependency lockfiles | Verified |
 | Source panel and shared code documents | Passed on all CRM page mappings, Hindi/English, and error pages |
 | Browser interaction | Verified open/close, nested source loading, keyboard close, and retained unsaved input |
+| Highlighting and copy enhancement | Bhash lexer/escaping checks and exact highlighted-source round trips pass; generated clipboard bridge payload/success/failure checks pass |
 | CI workflow actionlint validation | Passed |
 | Docker image build/runtime | Passed on VPS and Ubuntu CI, nonroot/read-only with SQLite |
 | Live VPS/DNS/HTTPS deployment | Passed at https://bhashcrm.bhashitva.org on November 21, 2026 |

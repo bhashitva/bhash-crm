@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: Apache-2.0
+संकुल अनुप्रयोग;
+आयात मानक.पाठ्य; आयात मानक.वेब; आयात मानक.वेबउत्तर;
+
+// Bhash renders escaped tokens and line numbers. Only copying needs a browser bridge.
+सार्वजनिक वर्ग स्रोतप्रकाश {
+    निजी मान ब्लॉकटिप्पणी: तार्किक=असत्य;
+    निजी साझा फलन अक्षर(पंक्ति: पाठ, क: पूर्णांक) -> पाठ { लौटाओ पाठ्य.अंश(पंक्ति,क,क+१); }
+    निजी साझा फलन अंक(अ: पाठ) -> तार्किक { लौटाओ अ!="" && पाठ्य.है("0123456789०१२३४५६७८९",अ); }
+    निजी साझा फलन विरामचिह्न(अ: पाठ) -> तार्किक { लौटाओ पाठ्य.है(" \t\r(){}[]:;,.?=<>!+-*/%&|^~\"",अ); }
+    निजी साझा फलन वर्गलो(शब्द: पाठ) -> पाठ {
+        यदि (पाठ्य.है("|पूर्णांक|बाइट|लघुपूर्णांक|सर्ववस्तु|बाइटबफ़र|दशमलव|तार्किक|पाठ|शून्य|सूची|मानचित्र|","|"+शब्द+"|")) { लौटाओ "tok-type"; }
+        यदि (पाठ्य.है("|सत्य|असत्य|रिक्त|","|"+शब्द+"|")) { लौटाओ "tok-literal"; }
+        यदि (पाठ्य.है("|संकुल|आयात|उपनाम|फलन|असमकालिक|प्रतीक्षा|वर्ग|अभिलेख|परिगणना|परिवर्तित|प्रकारहै|सुरक्षितरूप|अनुबंध|पालन|साझा|विस्तार|निर्माता|नया|यह|आधार|सार्वजनिक|निजी|संरक्षित|अधिलेखन|मान|स्थिर|यदि|अन्यथा|जबतक|प्रत्येक|में|चयन|विकल्प|शेष|संसाधन|प्रयास|पकड़ो|अंततः|फेंको|लौटाओ|विराम|जारी|लिखो|","|"+शब्द+"|")) { लौटाओ "tok-keyword"; }
+        लौटाओ "";
+    }
+    निजी फलन पंक्ति(मूल: पाठ, संख्या: पूर्णांक) -> दृश्य {
+        स्थिर प: दृश्य=दृश्य.खंड("span").गुण("class","source-line").गुण("data-line",वेब.अंक(संख्या));
+        स्थिर सीमा: पूर्णांक=पाठ्य.लंबाई(मूल); मान क: पूर्णांक=०;
+        जबतक (क<सीमा) {
+            स्थिर आरंभ: पूर्णांक=क; मान रंग: पाठ=""; स्थिर अ: पाठ=स्रोतप्रकाश.अक्षर(मूल,क);
+            मान दो: पाठ=""; यदि (क+१<सीमा) { दो=पाठ्य.अंश(मूल,क,क+२); }
+            यदि (ब्लॉकटिप्पणी || दो=="/*") {
+                रंग="tok-comment";
+                यदि (!ब्लॉकटिप्पणी) { ब्लॉकटिप्पणी=सत्य; क=क+२; }
+                जबतक (क<सीमा && ब्लॉकटिप्पणी) {
+                    यदि (क+१<सीमा && पाठ्य.अंश(मूल,क,क+२)=="*/") { क=क+२; ब्लॉकटिप्पणी=असत्य; } अन्यथा { क=क+१; }
+                }
+            } अन्यथा यदि (दो=="//") { रंग="tok-comment"; क=सीमा; }
+            अन्यथा यदि (अ=="\"") {
+                रंग="tok-string"; क=क+१; मान पलायन: तार्किक=असत्य; मान पूरा: तार्किक=असत्य;
+                जबतक (क<सीमा && !पूरा) { स्थिर च: पाठ=स्रोतप्रकाश.अक्षर(मूल,क); क=क+१;
+                    यदि (पलायन) { पलायन=असत्य; } अन्यथा यदि (च=="\\") { पलायन=सत्य; } अन्यथा यदि (च=="\"") { पूरा=सत्य; }
+                }
+            } अन्यथा यदि (स्रोतप्रकाश.अंक(अ)) {
+                रंग="tok-number"; क=क+१;
+                जबतक (क<सीमा && स्रोतप्रकाश.अंक(स्रोतप्रकाश.अक्षर(मूल,क))) { क=क+१; }
+                यदि (क+१<सीमा && स्रोतप्रकाश.अक्षर(मूल,क)=="." && स्रोतप्रकाश.अंक(स्रोतप्रकाश.अक्षर(मूल,क+१))) { क=क+१; जबतक (क<सीमा && स्रोतप्रकाश.अंक(स्रोतप्रकाश.अक्षर(मूल,क))) { क=क+१; } }
+            } अन्यथा यदि (स्रोतप्रकाश.विरामचिह्न(अ)) { क=क+१; }
+            अन्यथा {
+                क=क+१; जबतक (क<सीमा && !स्रोतप्रकाश.विरामचिह्न(स्रोतप्रकाश.अक्षर(मूल,क))) { क=क+१; }
+                स्थिर शब्द: पाठ=पाठ्य.अंश(मूल,आरंभ,क); रंग=स्रोतप्रकाश.वर्गलो(शब्द);
+                मान अगला: पूर्णांक=क; जबतक (अगला<सीमा && (स्रोतप्रकाश.अक्षर(मूल,अगला)==" " || स्रोतप्रकाश.अक्षर(मूल,अगला)=="\t")) { अगला=अगला+१; }
+                यदि (रंग=="" && अगला<सीमा && स्रोतप्रकाश.अक्षर(मूल,अगला)=="(") { रंग="tok-function"; }
+            }
+            स्थिर पाठांश: पाठ=पाठ्य.अंश(मूल,आरंभ,क);
+            यदि (रंग=="") { प.जोड़ो(दृश्य.अक्षर(पाठांश)); } अन्यथा { प.जोड़ो(दृश्य.शब्द("span",पाठांश).गुण("class",रंग)); }
+        }
+        लौटाओ प;
+    }
+    सार्वजनिक साझा फलन कोड(मूल: पाठ) -> दृश्य {
+        स्थिर रंग: स्रोतप्रकाश=नया स्रोतप्रकाश(); स्थिर कोड: दृश्य=दृश्य.खंड("code"); स्थिर पंक्तियाँ: सूची<पाठ> =पाठ्य.बाँटो(मूल,"\n"); मान क: पूर्णांक=०;
+        प्रत्येक (पंक्तियाँ में पंक्ति: पाठ) {
+            यदि (!(क==पंक्तियाँ.आकार-१ && पंक्ति=="" && क>०)) { स्थिर प: दृश्य=रंग.पंक्ति(पंक्ति,क+१); यदि (क<पंक्तियाँ.आकार-१) { प.जोड़ो(दृश्य.अक्षर("\n")); } कोड.जोड़ो(प); } क=क+१;
+        }
+        लौटाओ कोड;
+    }
+    सार्वजनिक साझा फलन ब्लॉक(मूल: पाठ, शीर्षक: पाठ, कॉपी: पाठ, सफल: पाठ, असफल: पाठ) -> दृश्य {
+        स्थिर बटन: दृश्य=दृश्य.शब्द("button",कॉपी).गुण("type","button").गुण("class","source-copy-button").गुण("data-copy-code","true").गुण("data-copy-ready",कॉपी).गुण("data-copy-done",सफल).गुण("data-copy-error",असफल).गुण("aria-label",कॉपी+" · "+शीर्षक);
+        स्थिर औजार: दृश्य=दृश्य.खंड("div").गुण("class","source-code-tools").जोड़ो(बटन).जोड़ो(दृश्य.खंड("span").गुण("class","source-copy-status").गुण("role","status").गुण("aria-live","polite"));
+        लौटाओ दृश्य.खंड("div").गुण("class","source-code-block").जोड़ो(औजार).जोड़ो(दृश्य.खंड("pre").गुण("tabindex","0").गुण("aria-label",शीर्षक).जोड़ो(स्रोतप्रकाश.कोड(मूल)));
+    }
+    सार्वजनिक साझा फलन कॉपीलिपि() -> वेबउत्तर {
+        स्थिर उत्तर: वेबउत्तर=वेब.पाठउत्तर(२००,"'use strict';document.documentElement.classList.add('source-copy-ready');const timers=new WeakMap();document.addEventListener('click',async(event)=>{const button=event.target.closest('button[data-copy-code]');if(!button)return;const block=button.closest('.source-code-block');const code=block.querySelector('code');const status=block.querySelector('[role=status]');clearTimeout(timers.get(button));button.disabled=true;status.textContent='';try{if(!navigator.clipboard||!window.isSecureContext)throw new Error('unavailable');await navigator.clipboard.writeText(code.textContent);button.textContent=button.dataset.copyDone;status.textContent=button.dataset.copyDone;timers.set(button,setTimeout(()=>{button.textContent=button.dataset.copyReady;status.textContent='';},2500));}catch(_){const range=document.createRange();range.selectNodeContents(code);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);button.textContent=button.dataset.copyReady;status.textContent=button.dataset.copyError;}finally{button.disabled=false;}});");
+        उत्तर.शीर्षरखो("Content-Type","text/javascript; charset=utf-8"); लौटाओ उत्तर;
+    }
+    सार्वजनिक साझा फलन शैली() -> पाठ {
+        लौटाओ ".source-code-block{background:#111b2e;color:#e9efff}.source-code-tools{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;padding:.5rem .8rem;background:#1b2940;border-bottom:1px solid #344560}.source-copy-button{display:none;font-size:.85rem;padding:.4rem .7rem}.source-copy-ready .source-copy-button{display:inline-flex}.source-copy-status{font-size:.85rem;color:#e9efff}.source-code-block pre{margin:0;overflow:auto;white-space:pre;tab-size:4}.source-line{white-space:pre}.source-line::before{content:attr(data-line);display:inline-block;position:sticky;left:0;min-width:3em;padding-right:.8em;margin-right:1em;text-align:right;color:#9aa9bd;background:#111b2e;border-right:1px solid #344560;user-select:none}.tok-keyword{color:#d6a5ff}.tok-type{color:#7ed5ee}.tok-literal{color:#f5a4c4}.tok-string{color:#a6dda3}.tok-comment{color:#9aa9bd;font-style:italic}.tok-number{color:#ffd58a}.tok-function{color:#93c5fd}.source-copy-button:focus-visible,.source-code-block pre:focus-visible{outline:3px solid #f0ab00;outline-offset:-3px}.source-code-document pre{min-height:0;padding:1rem}.source-code-document{background:#111b2e}.source-code-tools button:disabled{cursor:wait;opacity:.7}";
+    }
+}

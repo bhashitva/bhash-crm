@@ -119,7 +119,8 @@ class Client:
             assert response.headers["Cache-Control"] == "no-store"
             frame_policy = "self" if path.startswith("/source/") else "none"
             assert f"frame-ancestors '{frame_policy}'" in response.headers["Content-Security-Policy"]
-            assert "<script" not in text.lower(), "Bhash SSR must work with scripts disabled"
+            if not path.startswith("/source/"):
+                assert "<script" not in text.lower(), "CRM pages must work with scripts disabled"
             token = Inputs(text).values.get("_csrf")
             if token:
                 self.csrf = token
@@ -288,6 +289,14 @@ def verify(command, artifact: Path, provider: str, runtime: str, report: Path | 
                 from source_checks import SourceDocument
                 document = SourceDocument(anonymous.request(f"/source/signin/{part}?language=en")[0]).check()
                 assert marker in document.codes[0]
+                expected = {"forms": "packages/web-platform/src/forms.bhash", "sessions": "packages/web-platform/src/sessions.bhash", "main": "src/main.bhash", "translations": "src/translations.bhash"}[part]
+                assert document.codes[0] == Path(expected).read_text(encoding="utf-8"), "Highlighting must preserve exact copyable source"
+            script, script_headers = anonymous.request("/assets/source-copy.js")
+            assert script_headers.get_content_type() == "text/javascript"
+            assert "navigator.clipboard.writeText(code.textContent)" in script and "readText" not in script
+            copy_check = subprocess.run(["node", "tests/copy-bridge.cjs"], input=script, text=True, encoding="utf-8", capture_output=True, timeout=15)
+            assert copy_check.returncode == 0, copy_check.stderr
+            checks.append("Bhash syntax highlighting, consecutive line numbers, exact source text, localized copy controls and scoped clipboard bridge")
             checks.append("page-specific frontend/backend source on every HTML response, escaped and independent of tenant data")
             untranslated = alice.create(alpha, "contacts", "Contacts")
             text, _ = alice.request(f"/t/{alpha}/contacts/{untranslated}")
