@@ -144,7 +144,8 @@ Returning to an older schema version requires restoring its compatible backup.
 
 Deployed on November 21, 2026 at https://bhashcrm.bhashitva.org on the existing
 `play.bhashitva.org` VPS, with its checkout in `/opt/bhash-crm`.
-The highlighting, line-number and copy enhancement runs from commit `4786c7d`.
+The current signup runtime runs from commit `42a5c62`, including the source
+highlighting, line-number and copy enhancement.
 An online database backup and an isolated container check preceded rollout.
 The container is
 `bhash-crm-crm-1`; the database volume remains `bhash-crm_crm_data`.
@@ -164,3 +165,13 @@ HTTPS, anonymous language switching, secure cookies, database integrity and
 credential preservation are verified. Interactive login with the owner's
 password remains for the owner to check. See [validation](../VALIDATION.md).
 No user-count or high-availability claim is implied by shared session storage.
+
+Public signup is enabled with the hostname-restricted Managed Turnstile widget
+and the domain-restricted Resend sending key. The domain is verified, all previous
+Titan/mail and verification DNS records remain intact, and one approved Hindi
+verification email to `info@bhashitva.org` was confirmed Delivered by Resend.
+The proxy passes through the application's `Referrer-Policy: strict-origin`;
+do not override it with `no-referrer`, which suppresses the form Origin header
+in browsers. The policy sends no verification URL path or token as a referrer.
+The private online backup before migration is
+`/opt/bhash-crm/backups/before-signup-20261122T013935Z.db`.
